@@ -81,17 +81,19 @@ export function initScrollReveal() {
       activeTriggers.push(sectionTween.scrollTrigger);
     }
 
-    // Cascade headings inside this section if present
+    // Cascade headings & buttons inside this section if present
     const labels = sec.querySelectorAll(labelSelector);
     const titles = sec.querySelectorAll(titleSelector);
     const paragraphs = sec.querySelectorAll(paragraphSelector);
+    const buttons = sec.querySelectorAll(buttonSelector);
 
-    if (labels.length > 0 || titles.length > 0 || paragraphs.length > 0) {
+    if (labels.length > 0 || titles.length > 0 || paragraphs.length > 0 || buttons.length > 0) {
       const headingTimeline = gsap.timeline({
         onComplete: () => {
           labels.forEach(el => el.setAttribute('data-revealed', 'true'));
           titles.forEach(el => el.setAttribute('data-revealed', 'true'));
           paragraphs.forEach(el => el.setAttribute('data-revealed', 'true'));
+          buttons.forEach(el => el.setAttribute('data-revealed', 'true'));
         },
         scrollTrigger: {
           trigger: sec,
@@ -130,6 +132,15 @@ export function initScrollReveal() {
           duration: 1.0,
           ease: 'power3.out'
         }, 0.16);
+      }
+
+      if (buttons.length > 0) {
+        headingTimeline.to(buttons, {
+          opacity: 1,
+          y: 0,
+          duration: 1.0,
+          ease: 'power3.out'
+        }, 0.22);
       }
     }
   });
@@ -202,18 +213,21 @@ export function initScrollReveal() {
   const buttons = document.querySelectorAll(buttonSelector);
   console.log('[ScrollReveal] Found buttons to animate:', buttons.length);
   buttons.forEach((btn) => {
+    // If button was already animated in its section timeline, skip standalone trigger
+    if (btn.getAttribute('data-revealed') === 'true' || btn.closest('[data-reveal="section"]')) {
+      return;
+    }
     const btnTween = gsap.to(btn, {
       opacity: 1,
       y: 0,
       duration: 0.6,
-      delay: 0.2,
       ease: 'power3.out',
       onComplete: () => {
         btn.setAttribute('data-revealed', 'true');
       },
       scrollTrigger: {
-        trigger: btn,
-        start: 'top 82%',
+        trigger: btn.closest('section, .container') || btn,
+        start: 'top 85%',
         toggleActions: 'play none none none',
         once: true
       }

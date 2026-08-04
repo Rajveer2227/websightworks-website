@@ -70,7 +70,7 @@ export default function About() {
   return (
     <>
       <SEO 
-        title="Our Story & Philosophy" 
+        title="About" 
         description="Learn about the Websight Works core mission, luxury digital design tenets, technology stack guidelines, and organizational values."
       />
 

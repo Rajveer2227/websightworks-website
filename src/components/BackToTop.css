@@ -9,7 +9,7 @@ body.preloader-active .back-to-top-wrapper {
 
 .back-to-top-wrapper {
   position: fixed;
-  bottom: 60px;
+  bottom: 48px;
   left: 24px;
   z-index: 9990;
   pointer-events: none;

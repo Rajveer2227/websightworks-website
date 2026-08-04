@@ -9,6 +9,7 @@ import { initScrollReveal } from '../utils/scrollReveal';
 interface FormFields {
   name: string;
   email: string;
+  phone: string;
   scope: string;
   message: string;
   honeypot: string; // Anti-spam trap
@@ -17,6 +18,7 @@ interface FormFields {
 interface FormErrors {
   name?: string;
   email?: string;
+  phone?: string;
   message?: string;
 }
 
@@ -28,6 +30,7 @@ export default function Contact() {
   const [fields, setFields] = useState<FormFields>({
     name: '',
     email: '',
+    phone: '',
     scope: 'Website Development',
     message: '',
     honeypot: '',
@@ -140,6 +143,7 @@ export default function Contact() {
     const sanitizedSubmission = {
       name: sanitizeText(fields.name),
       email: sanitizeText(fields.email),
+      phone: sanitizeText(fields.phone),
       scope: sanitizeText(fields.scope),
       message: sanitizeText(fields.message),
     };
@@ -151,7 +155,7 @@ export default function Contact() {
 
       // Auto reset form to normal state after 3.5 seconds
       setTimeout(() => {
-        setFields({ name: '', email: '', scope: 'Website Development', message: '', honeypot: '' });
+        setFields({ name: '', email: '', phone: '', scope: 'Website Development', message: '', honeypot: '' });
         setFormState('idle');
       }, 3500);
     }, 1500);
@@ -160,7 +164,7 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Start Your Project" 
+        title="Contact" 
         description="Connect with our principal engineering team. Draft your digital product scope and get a custom proposal."
       />
 
@@ -268,6 +272,21 @@ export default function Contact() {
                           {errors.email}
                         </span>
                       )}
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="phone" className="form-label">
+                        Phone Number
+                      </label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        name="phone"
+                        value={fields.phone}
+                        onChange={handleInputChange}
+                        className="form-input"
+                        placeholder="e.g. +91 96373 72210"
+                      />
                     </div>
 
                     <div className="form-group" ref={dropdownRef}>
@@ -794,12 +813,18 @@ export default function Contact() {
 
         /* Real Map HQ Coordinates */
         .abstract-map-container {
-          height: 240px;
+          height: 350px;
           width: 100%;
           border-radius: 12px;
           position: relative;
           overflow: hidden;
           background: #090909;
+        }
+
+        @media (max-width: 768px) {
+          .abstract-map-container {
+            height: 260px;
+          }
         }
 
         .google-map-iframe {

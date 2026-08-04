@@ -26,7 +26,7 @@ export default function Projects() {
   return (
     <>
       <SEO 
-        title="Our Flagship Projects" 
+        title="Projects" 
         description="Explore the case studies of Websight Works, showcasing high-performance custom web applications, asset management panels, and AI dashboards."
       />
 

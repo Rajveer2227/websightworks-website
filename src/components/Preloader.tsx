@@ -9,7 +9,7 @@ interface PreloaderProps {
 
 export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [statusText, setStatusText] = useState('PROBING CINEMATIC SEQUENCE...');
+  const [statusText, setStatusText] = useState('INITIALIZING DIGITAL EXPERIENCE');
 
   const onPreloadCompleteRef = useRef(onPreloadComplete);
   const onExitCompleteRef = useRef(onExitComplete);
@@ -128,7 +128,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
         }
 
         if (!isMounted) return;
-        setStatusText("PRE-DECODING SCENE COMPONENT");
+        setStatusText("INITIALIZING DIGITAL EXPERIENCE");
 
         let loadedCount = 0;
 
@@ -234,12 +234,10 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
   }, []);
 
   const getPhaseText = (prog: number) => {
-    if (prog < 20) return "CONCEPTUALIZING BRAND SCHEMAS";
-    if (prog < 45) return "CALIBRATING GRID COORDINATES";
-    if (prog < 70) return "PROFILES AND MOTION DECODING";
-    if (prog < 90) return "SYNCHRONIZING CANVAS TICKS";
-    if (prog < 100) return "COMPILING FLAGSHIP INTERFACES";
-    return "UNVEILING FLAGSHIP EXPERIENCE";
+    if (prog < 25) return "INITIALIZING DIGITAL EXPERIENCE";
+    if (prog < 50) return "ENGINEERING PREMIUM SOLUTIONS";
+    if (prog < 75) return "OPTIMIZING EVERY DETAIL";
+    return "READY TO BUILD EXCELLENCE";
   };
 
   const radius = 28;
