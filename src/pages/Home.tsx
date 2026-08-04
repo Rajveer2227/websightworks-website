@@ -117,7 +117,7 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="Premium Digital Product Studio" 
+        title="Websight Works" 
         description="Websight Works is an elite creative engineering studio designing and developing award-winning digital experiences, custom web apps, and luxury websites."
       />
 

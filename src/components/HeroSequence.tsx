@@ -363,8 +363,8 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
       <style>{`
         .hero-fixed-logo-wrapper {
           position: absolute;
-          bottom: 3.2rem;
-          right: 10.2rem;
+          bottom: 2.6rem;
+          right: 9.4rem;
           transform: translate(50%, 50%);
           z-index: 10;
           pointer-events: none;
@@ -407,8 +407,8 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
 
         @media (max-width: 1400px) {
           .hero-fixed-logo-wrapper {
-            bottom: 3.2rem;
-            right: 10.2rem;
+            bottom: 2.6rem;
+            right: 9.4rem;
           }
         }
 

@@ -21,8 +21,15 @@ export default function SEO({
 
   useEffect(() => {
     // 1. Update Document Title
-    const formattedTitle = `${title} | Websight Works`;
+    const formattedTitle = title === 'Websight Works' ? 'Websight Works' : `${title} | Websight Works`;
     document.title = formattedTitle;
+
+    // Ensure favicon is updated to WW_3.png
+    let faviconLink = document.querySelector('link[rel="icon"]');
+    if (faviconLink) {
+      faviconLink.setAttribute('href', '/WW_3.png');
+      faviconLink.setAttribute('type', 'image/png');
+    }
 
     // Helper to get or create a head element
     const getOrCreateMeta = (attrName: string, attrValue: string) => {
