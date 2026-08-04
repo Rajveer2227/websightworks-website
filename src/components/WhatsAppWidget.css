@@ -1,0 +1,124 @@
+/* Hide widget while preloader is active */
+body.preloader-active .whatsapp-widget-container {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.whatsapp-widget-container {
+  position: fixed;
+  bottom: 54px;
+  right: 24px;
+  z-index: 9990;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .whatsapp-widget-container {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .whatsapp-widget-container {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+.whatsapp-widget-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45), 0 2px 8px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 200ms cubic-bezier(0.25, 1, 0.5, 1),
+              background-color 200ms ease;
+  animation: whatsappEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+             whatsappFloat 3.5s ease-in-out 0.8s infinite;
+  will-change: transform;
+}
+
+/* Glass-like top subtle highlight */
+.whatsapp-widget-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 60px 60px 0 0;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .whatsapp-widget-btn {
+    width: 56px;
+    height: 56px;
+  }
+  .whatsapp-icon-svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Hover state */
+.whatsapp-widget-btn:hover {
+  transform: scale(1.08);
+  background-color: #22bf5b;
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Click / Active state */
+.whatsapp-widget-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+}
+
+/* Accessibility Focus Ring */
+.whatsapp-widget-btn:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* Entrance Animation */
+@keyframes whatsappEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Gentle Floating Idle Animation (2-3px movement every 3.5s) */
+@keyframes whatsappFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-widget-btn {
+    animation: none !important;
+    transition: opacity 200ms ease !important;
+  }
+}

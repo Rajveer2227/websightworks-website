@@ -1,0 +1,50 @@
+/* Container perspective */
+.flip-text-wrapper {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+/* Prevent word splitting across characters */
+.word {
+  white-space: nowrap;
+}
+
+/* Individual character container */
+.flip-char {
+  display: inline-block;
+  position: relative;
+  transform: rotateX(-90deg);
+  opacity: 0;
+  transform-origin: 50% 100%; /* Rotate from bottom edge for standing flip */
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity; /* GPU acceleration */
+}
+
+/* Animation keyframes */
+@keyframes flip-up {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+/* Trigger animation once the container gets the .animate class */
+.animate .flip-char {
+  animation: flip-up var(--flip-duration, 1.8s) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--flip-delay, 0s);
+  animation-iteration-count: var(--flip-iteration, 1);
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .flip-char {
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
