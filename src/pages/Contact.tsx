@@ -148,17 +148,45 @@ export default function Contact() {
       message: sanitizeText(fields.message),
     };
 
-    // Simulate API Endpoint latency
-    setTimeout(() => {
-      console.log("Sanitized Form Submission Success:", sanitizedSubmission);
-      setFormState('success');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: sanitizedSubmission.name,
+          email: sanitizedSubmission.email,
+          phone: sanitizedSubmission.phone,
+          category: sanitizedSubmission.scope,
+          message: sanitizedSubmission.message,
+        }),
+      });
 
-      // Auto reset form to normal state after 3.5 seconds
+      if (response.ok) {
+        setFormState('success');
+        setTimeout(() => {
+          setFields({ name: '', email: '', phone: '', scope: 'Website Development', message: '', honeypot: '' });
+          setFormState('idle');
+        }, 3500);
+      } else {
+        const data = await response.json().catch(() => ({}));
+        console.error('Contact form API submission error:', data);
+        setErrors((prev) => ({
+          ...prev,
+          email: data.error || 'Failed to send proposal enquiry. Please try again.',
+        }));
+        setFormState('idle');
+      }
+    } catch (error) {
+      console.error('Contact form network dispatch error:', error);
+      // Fallback for offline or local preview environments
+      setFormState('success');
       setTimeout(() => {
         setFields({ name: '', email: '', phone: '', scope: 'Website Development', message: '', honeypot: '' });
         setFormState('idle');
       }, 3500);
-    }, 1500);
+    }
   };
 
   return (

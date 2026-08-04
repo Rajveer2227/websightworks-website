@@ -118,7 +118,7 @@ export default function Home() {
     <>
       <SEO 
         title="Websight Works" 
-        description="Websight Works is an elite creative engineering studio designing and developing award-winning digital experiences, custom web apps, and luxury websites."
+        description="We build high-performance websites, custom web applications, AI solutions, e-commerce platforms, and premium digital experiences that help businesses grow with confidence."
       />
 
       {/* 1. Canvas Scroll Sequence Hero */}
