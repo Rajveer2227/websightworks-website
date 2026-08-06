@@ -117,8 +117,32 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="Websight Works" 
-        description="We build high-performance websites, custom web applications, AI solutions, e-commerce platforms, and premium digital experiences that help businesses grow with confidence."
+        title="Websight Works | Web Development, Custom Apps & AI Solutions in Kolhapur" 
+        description="Websight Works is a premier web development company in Kolhapur, Maharashtra. We build high-performance websites, custom web applications, e-commerce stores, and AI solutions."
+        schemas={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            'name': 'Core Digital Services',
+            'itemListElement': services.map((s, idx) => ({
+              '@type': 'ListItem',
+              'position': idx + 1,
+              'item': {
+                '@type': 'Service',
+                'name': s.title,
+                'url': `https://websightworks.com/expertise/${s.id}`,
+                'description': s.homepageDesc,
+                'provider': {
+                  '@id': 'https://websightworks.com/#organization',
+                },
+                'areaServed': {
+                  '@type': 'AdministrativeArea',
+                  'name': 'Kolhapur, Maharashtra, India',
+                },
+              },
+            })),
+          },
+        ]}
       />
 
       {/* 1. Canvas Scroll Sequence Hero */}
@@ -273,7 +297,12 @@ export default function Home() {
                   <div className="project-feature-info-col">
                     <span className="project-index" data-reveal="label">0{idx + 1} / FEATURED WORK</span>
                     <h3 className="project-feature-title serif-heading" data-reveal="title">{project.title}</h3>
-                    <span className="project-feature-category" data-reveal="paragraph">{project.category}</span>
+                    <div className="project-feature-badges" data-reveal="paragraph">
+                      <span className="project-feature-category">{project.category}</span>
+                      {project.technology && (
+                        <span className="project-feature-tech">{project.technology}</span>
+                      )}
+                    </div>
                     <p className="project-feature-desc" data-reveal="paragraph">{project.shortDesc}</p>
                     <a 
                       href={project.projectUrl} 
@@ -425,9 +454,9 @@ export default function Home() {
 
         @media (max-width: 992px) {
           .about-keyboard-wrapper {
-            height: 380px;
+            display: none !important;
           }
-        }
+        } 
 
         @media (min-width: 992px) {
           .about-preview {
@@ -640,6 +669,17 @@ export default function Home() {
           transform: translateY(-22px);
         }
 
+        @media (max-width: 992px) {
+          .projects-header-wrap {
+            align-items: flex-start !important;
+            text-align: left !important;
+          }
+          .projects-header-wrap .btn-primary {
+            transform: none !important;
+            align-self: flex-start !important;
+          }
+        }
+
         .featured-projects .section-title {
           color: #050505;
         }
@@ -821,11 +861,39 @@ export default function Home() {
           }
         }
 
+        .project-feature-badges {
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+          flex-wrap: wrap;
+          margin-bottom: 0.5rem;
+        }
+
         .project-feature-category {
           font-size: 0.8125rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
           color: var(--text-secondary);
+          line-height: 1;
+        }
+
+        .project-feature-tech {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 20px;
+          padding: 0 0.55rem;
+          box-sizing: border-box;
+          font-size: 0.625rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          line-height: 1;
+          color: rgba(255, 255, 255, 0.75);
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 9999px;
+          transform: translateY(-2px);
         }
 
         .project-feature-desc {
@@ -833,13 +901,6 @@ export default function Home() {
           line-height: 1.7;
           font-size: 0.9375rem;
           margin-bottom: 0.5rem;
-        }
-
-        .project-feature-tech {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-bottom: 1.5rem;
         }
 
         .tech-badge {
@@ -1081,7 +1142,17 @@ export default function Home() {
 
         @media (max-width: 768px) {
           .cta-title {
-            font-size: 2.25rem;
+            font-size: 1.6rem !important;
+            line-height: 1.25 !important;
+            padding: 0 0.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .cta-title {
+            font-size: 1.35rem !important;
+            line-height: 1.3 !important;
+            padding: 0;
           }
         }
 

@@ -95,14 +95,14 @@ export function TypingKeyboard({
       if (!alive || !screen) return;
       
       const currentText = messages[messageIdx];
-      const char = currentText[charIdx];
+      const char = currentText[charIdx] || "";
       
       // Get keycode for animation
       const kc = char === " " ? 32 : char.toUpperCase().charCodeAt(0);
       pressKey(kc);
       
-      // Append character to screen
-      screen.innerHTML += char === " " ? " " : char;
+      // Set screen text strictly to the current typed slice (prevents text duplication)
+      screen.textContent = currentText.slice(0, charIdx + 1);
 
       charIdx++;
       if (charIdx >= currentText.length) {
@@ -111,7 +111,7 @@ export function TypingKeyboard({
           if (!alive || !screen) return;
           
           // Clear screen
-          screen.innerHTML = "";
+          screen.textContent = "";
           charIdx = 0;
           messageIdx = (messageIdx + 1) % messages.length;
           
@@ -152,17 +152,17 @@ export function TypingKeyboard({
         }
         @media (max-width: 992px) {
           .tk-main {
-            transform: scale(0.48) !important;
+            transform: scale(0.48) translateX(-100px) !important;
           }
         }
         @media (max-width: 576px) {
           .tk-main {
-            transform: scale(0.42) !important;
+            transform: scale(0.42) translateX(-110px) !important;
           }
         }
         @media (max-width: 400px) {
           .tk-main {
-            transform: scale(0.38) !important;
+            transform: scale(0.36) translateX(-120px) !important;
           }
         }
         .tk-flex { display: flex; justify-content: center; align-items: center; }
@@ -195,11 +195,11 @@ export function TypingKeyboard({
           transform: translateZ(90px) translateY(-170px) rotateX(270deg);
           background-color: rgba(10, 10, 10, 0.9);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 8px; padding: 20px;
+          border-radius: 8px; padding: 14px 16px;
           font-family: 'Inter', Monaco, monospace;
-          font-size: 15px; line-height: 1.6;
+          font-size: 13px; line-height: 1.5;
           word-wrap: break-word; white-space: pre-wrap; overflow: hidden;
-          text-transform: none; letter-spacing: 0.5px; 
+          text-transform: none; letter-spacing: 0.2px; 
           color: #ffffff;
           font-weight: 500;
           align-items: flex-start !important;

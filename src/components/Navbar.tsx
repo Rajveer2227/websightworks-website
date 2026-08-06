@@ -45,6 +45,26 @@ export default function Navbar() {
     setIsMegaOpen(false);
   }, [location.pathname]);
 
+  // Prevent background Lenis scroll when mobile drawer is open without layout shift
+  useEffect(() => {
+    const lenis = (window as any).lenis;
+    if (isMobileOpen) {
+      if (lenis && typeof lenis.stop === 'function') {
+        lenis.stop();
+      }
+    } else {
+      if (lenis && typeof lenis.start === 'function') {
+        lenis.start();
+      }
+    }
+    return () => {
+      const currentLenis = (window as any).lenis;
+      if (currentLenis && typeof currentLenis.start === 'function') {
+        currentLenis.start();
+      }
+    };
+  }, [isMobileOpen]);
+
   // Listen to preloader complete event to show navbar
   useEffect(() => {
     if (preloaderComplete) return;
@@ -70,10 +90,11 @@ export default function Navbar() {
   const isPreloaderActive = isHomePage && !preloaderComplete;
 
   return (
-    <>
+    <header className="site-header">
       <nav 
         className={`navbar-wrapper ${isScrolled ? 'scrolled' : ''} ${isPreloaderActive ? 'preloader-hidden' : ''} ${(['/contact', '/about'].includes(location.pathname) || location.pathname.startsWith('/projects') || location.pathname.startsWith('/expertise')) && !isScrolled ? 'theme-light' : ''}`}
         style={isPreloaderActive ? { opacity: 0, pointerEvents: 'none', visibility: 'hidden' } : undefined}
+        aria-label="Main Navigation"
       >
         <div className="container navbar-container">
           {/* Logo */}
@@ -172,12 +193,18 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile Drawer Backdrop */}
+      {isMobileOpen && (
+        <div 
+          className="mobile-drawer-backdrop" 
+          onClick={() => setIsMobileOpen(false)}
+          onTouchMove={(e) => e.preventDefault()}
+        />
+      )}
+
       {/* Mobile Drawer Navigation */}
       <div className={`mobile-drawer glass-panel ${isMobileOpen ? 'open' : ''}`}>
         <div className="mobile-drawer-header">
-          <Link to="/" className="navbar-logo" onClick={() => setIsMobileOpen(false)}>
-            Websight Works
-          </Link>
           <button 
             className="mobile-menu-toggle" 
             onClick={() => setIsMobileOpen(false)}
@@ -190,22 +217,22 @@ export default function Navbar() {
           <ul className="mobile-nav-links">
             <li>
               <Link to="/" className={`mobile-nav-link ${isActive('/') ? 'active' : ''}`} onClick={() => setIsMobileOpen(false)}>
-                Home
+                HOME
               </Link>
             </li>
             <li>
               <Link to="/about" className={`mobile-nav-link ${isActive('/about') ? 'active' : ''}`} onClick={() => setIsMobileOpen(false)}>
-                About
+                ABOUT
               </Link>
             </li>
             <li className="mobile-dropdown-section">
-              <span className="mobile-nav-heading">Expertise</span>
+              <span className="mobile-nav-heading">EXPERTISE</span>
               <ul className="mobile-sub-links">
                 {services.map((service) => (
                   <li key={service.id}>
                     <Link 
                       to={`/expertise/${service.id}`}
-                      className="mobile-sub-link"
+                      className={`mobile-sub-link ${location.pathname === `/expertise/${service.id}` ? 'active' : ''}`}
                       onClick={() => setIsMobileOpen(false)}
                     >
                       {service.title}
@@ -216,17 +243,17 @@ export default function Navbar() {
             </li>
             <li>
               <Link to="/projects" className={`mobile-nav-link ${isActive('/projects') ? 'active' : ''}`} onClick={() => setIsMobileOpen(false)}>
-                Projects
+                PROJECTS
               </Link>
             </li>
             <li>
               <Link to="/contact" className={`mobile-nav-link ${isActive('/contact') ? 'active' : ''}`} onClick={() => setIsMobileOpen(false)}>
-                Contact
+                CONTACT
               </Link>
             </li>
           </ul>
           <div className="mobile-drawer-cta">
-            <Link to="/contact" className="btn btn-primary" onClick={() => setIsMobileOpen(false)} style={{ width: '100%' }}>
+            <Link to="/contact" className="btn btn-primary btn-mobile-cta" onClick={() => setIsMobileOpen(false)}>
               Get In Touch
             </Link>
           </div>
@@ -614,31 +641,51 @@ export default function Navbar() {
           color: var(--text-primary);
           cursor: pointer;
           display: none;
+          min-width: 44px;
+          min-height: 44px;
+          align-items: center;
+          justify-content: center;
         }
 
         @media (max-width: 992px) {
           .mobile-menu-toggle {
-            display: block;
+            display: inline-flex;
           }
         }
 
-        /* Mobile Drawer */
+        /* Mobile Drawer Backdrop & Container */
+        .mobile-drawer-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+          z-index: 1999;
+          transition: opacity 0.3s ease;
+        }
+
         .mobile-drawer {
           position: fixed;
           top: 0;
           right: -100%;
           width: 320px;
+          max-width: 100vw;
           height: 100vh;
+          height: 100dvh;
           z-index: 2000;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          padding: 2rem;
+          padding: calc(2rem + env(safe-area-inset-top, 0px)) 2rem calc(2rem + env(safe-area-inset-bottom, 0px)) 2rem;
           transition: cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
           border-radius: 0;
           border-top: none;
           border-bottom: none;
           border-right: none;
+          overflow-y: auto;
         }
 
         .mobile-drawer.open {
@@ -648,8 +695,30 @@ export default function Navbar() {
         .mobile-drawer-header {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          margin-bottom: 3rem;
+          justify-content: flex-end;
+          margin-bottom: 2rem;
+        }
+
+        .mobile-drawer-header .mobile-menu-toggle {
+          width: 42px;
+          height: 42px;
+          min-width: 42px;
+          min-height: 42px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: var(--text-primary);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-drawer-header .mobile-menu-toggle:hover,
+        .mobile-drawer-header .mobile-menu-toggle:active {
+          background: rgba(47, 128, 255, 0.15);
+          border-color: var(--accent-blue);
+          color: var(--accent-blue);
         }
 
         .mobile-drawer-body {
@@ -667,13 +736,20 @@ export default function Navbar() {
         }
 
         .mobile-nav-link {
-          font-size: 1.25rem;
-          font-weight: 500;
+          font-size: 1.15rem;
+          font-weight: 600;
           color: var(--text-secondary);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          transition: color 0.3s ease;
         }
 
-        .mobile-nav-link.active, .mobile-nav-link:hover {
+        .mobile-nav-link:hover {
           color: var(--text-primary);
+        }
+
+        .mobile-nav-link.active {
+          color: var(--accent-blue) !important;
         }
 
         .mobile-dropdown-section {
@@ -702,12 +778,35 @@ export default function Navbar() {
         .mobile-sub-link {
           font-size: 0.875rem;
           color: var(--text-secondary);
+          transition: color 0.3s ease;
         }
 
         .mobile-sub-link:hover {
           color: var(--text-primary);
         }
+
+        .mobile-sub-link.active {
+          color: var(--accent-blue) !important;
+          font-weight: 500;
+        }
+
+        .mobile-drawer-cta {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          margin-top: 1.5rem;
+          margin-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+          width: 100%;
+        }
+
+        .btn-mobile-cta {
+          width: auto !important;
+          border-radius: 30px !important;
+          padding: 0.8rem 1.75rem !important;
+          font-weight: 600;
+          letter-spacing: 0.03em;
+        }
       `}</style>
-    </>
+    </header>
   );
 }

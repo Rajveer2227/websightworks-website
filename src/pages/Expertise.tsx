@@ -54,17 +54,81 @@ export default function Expertise() {
   }
 
 
+  // Localized production SEO metadata lookup
+  const serviceSEO = {
+    'website-development': {
+      title: 'Website Development Company in Kolhapur | Websight Works',
+      description: 'High-performance custom website development in Kolhapur, Maharashtra. We build fast, mobile-responsive, and conversion-focused corporate websites.',
+    },
+    'e-commerce': {
+      title: 'E-Commerce Website Development in Kolhapur | Websight Works',
+      description: 'Custom e-commerce website development company in Kolhapur. Build high-converting online stores with secure checkout and scalable architecture.',
+    },
+    'custom-apps': {
+      title: 'Custom Web Application Development Kolhapur | Websight Works',
+      description: 'Custom software development and web applications in Kolhapur, Maharashtra. Tailored SaaS platforms, dashboards, and enterprise portals.',
+    },
+    'ai-solutions': {
+      title: 'AI Solutions & Machine Learning Integration Kolhapur | Websight Works',
+      description: 'Intelligent AI solutions and machine learning integration in Kolhapur. Automate workflows, customer support, and business operations.',
+    },
+    'data-analytics': {
+      title: 'Data Analytics & Dashboard Development Kolhapur | Websight Works',
+      description: 'Data analytics and interactive dashboard development in Kolhapur. Transform complex business data into real-time actionable insights.',
+    },
+    'ui-ux-design': {
+      title: 'UI UX Design Services in Kolhapur | Websight Works',
+      description: 'Professional UI/UX design services in Kolhapur. We craft intuitive user interfaces, design systems, and wireframes that drive engagement.',
+    },
+    'digital-marketing': {
+      title: 'Social Media Marketing Agency in Kolhapur | Websight Works',
+      description: 'Strategic social media marketing and brand campaigns in Kolhapur. Drive audience engagement, brand awareness, and digital growth.',
+    },
+  }[service.id] || {
+    title: `${service.title} | Websight Works`,
+    description: service.description,
+  };
+
   // Structured schemas
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': `https://websightworks.com/expertise/${service.id}#service`,
     'name': service.title,
+    'serviceType': service.title,
+    'category': service.categoryLabel,
     'description': service.description,
     'provider': {
       '@type': 'Organization',
       'name': 'Websight Works',
       'url': 'https://websightworks.com',
+      '@id': 'https://websightworks.com/#organization',
+    },
+    'areaServed': [
+      {
+        '@type': 'City',
+        'name': 'Kolhapur',
+      },
+      {
+        '@type': 'State',
+        'name': 'Maharashtra',
+      },
+      {
+        '@type': 'Country',
+        'name': 'India',
+      },
+    ],
+    'hasOfferCatalog': {
+      '@type': 'OfferCatalog',
+      'name': `${service.title} Capabilities`,
+      'itemListElement': service.solutions.map((sol) => ({
+        '@type': 'Offer',
+        'itemOffered': {
+          '@type': 'Service',
+          'name': sol,
+          'description': sol,
+        },
+      })),
     },
   };
 
@@ -88,8 +152,8 @@ export default function Expertise() {
   return (
     <>
       <SEO 
-        title={service.title} 
-        description={service.description}
+        title={serviceSEO.title} 
+        description={serviceSEO.description}
         schemas={[serviceSchema, faqSchema]}
       />
 
@@ -832,10 +896,20 @@ export default function Expertise() {
 
         @media (max-width: 768px) {
           .service-cta-card {
-            padding: 4rem 1.5rem;
+            padding: 3rem 1.25rem;
           }
           .cta-title {
-            font-size: 2.25rem;
+            font-size: 1.6rem !important;
+            line-height: 1.25 !important;
+            padding: 0 0.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .cta-title {
+            font-size: 1.35rem !important;
+            line-height: 1.3 !important;
+            padding: 0;
           }
         }
       `}</style>

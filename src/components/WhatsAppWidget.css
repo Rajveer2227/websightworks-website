@@ -7,7 +7,7 @@ body.preloader-active .whatsapp-widget-container {
 
 .whatsapp-widget-container {
   position: fixed;
-  bottom: 46px;
+  bottom: 56px;
   right: 24px;
   z-index: 9990;
   pointer-events: auto;
@@ -18,15 +18,15 @@ body.preloader-active .whatsapp-widget-container {
 
 @media (max-width: 1024px) {
   .whatsapp-widget-container {
-    bottom: 20px;
-    right: 20px;
+    bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+    right: calc(46px + env(safe-area-inset-right, 0px));
   }
 }
 
 @media (max-width: 600px) {
   .whatsapp-widget-container {
-    bottom: 16px;
-    right: 16px;
+    bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+    right: calc(42px + env(safe-area-inset-right, 0px));
   }
 }
 

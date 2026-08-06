@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { ArrowRight, Eye, Award } from 'lucide-react';
+import { ArrowRight, Eye, Award, Zap, Palette, MessageSquareMore, Handshake } from 'lucide-react';
 import SEO from '../components/SEO';
 import { Particles } from '../components/Particles';
 import ShinyText from '../components/ShinyText';
 import FlipTextCycle from '../components/ui/flip-text-cycle';
 import WaveGridBackground from '../components/ui/wave-grid-background';
-import InteractiveBook, { type BookPage } from '../components/InteractiveBook';
 import { initScrollReveal } from '../utils/scrollReveal';
 
 export default function About() {
@@ -14,64 +13,23 @@ export default function About() {
     initScrollReveal();
   }, []);
 
-  const bookPages: BookPage[] = [
-    {
-      pageNumber: 1,
-      title: "Performance First",
-      content: "Every website and application is optimized for speed, security, and long-term scalability.",
-      backTitle: "Fully Custom",
-      backContent: "No templates or shortcuts. Every solution is designed around your business goals."
-    },
-    {
-      pageNumber: 2,
-      title: "Transparent Process",
-      content: "Clear communication, milestone-based delivery, and complete project visibility from start to finish.",
-      backTitle: "Long-Term Partnership",
-      backContent: "We continue supporting, improving, and scaling your digital products beyond launch."
-    },
-    {
-      pageNumber: 3,
-      title: "Let's Build Together",
-      content: (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <span>
-            Turning ambitious ideas into exceptional digital products.
-          </span>
-          <Link
-            to="/contact"
-            className="btn btn-primary"
-            style={{
-              alignSelf: 'flex-start',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              background: 'var(--accent-blue)',
-              color: '#ffffff',
-              border: 'none',
-              padding: '0.75rem 1.75rem',
-              borderRadius: '30px',
-              fontWeight: 500,
-              fontSize: '0.875rem',
-              textDecoration: 'none'
-            }}
-          >
-            Start Project &rarr;
-          </Link>
-        </div>
-      ),
-      backContent: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', opacity: 0.15 }}>
-          <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1rem', color: '#1a1a1a', margin: 0 }}>Websight Works</p>
-        </div>
-      )
-    }
-  ];
-
   return (
     <>
       <SEO 
-        title="About" 
-        description="Learn about the Websight Works core mission, luxury digital design tenets, technology stack guidelines, and organizational values."
+        title="About Us | Websight Works - Digital Solutions Company Kolhapur" 
+        description="Learn about Websight Works, a leading digital solutions agency in Kolhapur, Maharashtra. Explore our mission, vision, leadership, and team crafting custom web applications and websites."
+        schemas={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            'name': 'About Websight Works',
+            'url': 'https://websightworks.com/about',
+            'description': 'Learn about Websight Works, a premier digital agency in Kolhapur, Maharashtra building custom websites, web apps, and AI solutions.',
+            'mainEntity': {
+              '@id': 'https://websightworks.com/#organization',
+            },
+          },
+        ]}
       />
 
       <div className="about-page-wrapper">
@@ -265,14 +223,38 @@ export default function About() {
               </div>
             </div>
 
-            <div className="book-showcase-container" data-reveal="content">
-              <InteractiveBook
-                bookTitle="Why Businesses Choose Us ?"
-                bookAuthor="Crafted for Performance"
-                pages={bookPages}
-                width={380}
-                height={520}
-              />
+            <div className="choose-us-cards-grid" data-reveal="content">
+              <div className="choose-card glass-panel" data-reveal="card">
+                <div className="choose-card-icon-wrap">
+                  <Zap size={24} />
+                </div>
+                <h3 className="choose-card-title">Performance First</h3>
+                <p className="choose-card-desc">Every website and application is optimized for speed, security, and long-term scalability.</p>
+              </div>
+
+              <div className="choose-card glass-panel" data-reveal="card">
+                <div className="choose-card-icon-wrap">
+                  <Palette size={24} />
+                </div>
+                <h3 className="choose-card-title">Fully Custom</h3>
+                <p className="choose-card-desc">No templates or shortcuts. Every solution is designed around your business goals.</p>
+              </div>
+
+              <div className="choose-card glass-panel" data-reveal="card">
+                <div className="choose-card-icon-wrap">
+                  <MessageSquareMore size={24} />
+                </div>
+                <h3 className="choose-card-title">Transparent Process</h3>
+                <p className="choose-card-desc">Clear communication, milestone-based delivery, and complete project visibility from start to finish.</p>
+              </div>
+
+              <div className="choose-card glass-panel" data-reveal="card">
+                <div className="choose-card-icon-wrap">
+                  <Handshake size={24} />
+                </div>
+                <h3 className="choose-card-title">Long-Term Partnership</h3>
+                <p className="choose-card-desc">We continue supporting, improving, and scaling your digital products beyond launch.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -412,40 +394,22 @@ export default function About() {
         }
 
         .value-card {
-          padding: 1.5rem;
+          padding: 1.6rem;
+          border-radius: 14px;
           display: flex;
           gap: 1.25rem;
           align-items: flex-start;
-          transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+          transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                      border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+          transform: translateZ(0);
+          will-change: transform;
         }
 
         .value-card:hover {
-          border-color: rgba(47, 128, 255, 0.4);
-          box-shadow: 0 0 15px rgba(47, 128, 255, 0.1);
-        }
-
-        .value-card:hover .value-info h4 {
-          color: var(--accent-blue) !important;
-        }
-
-        .value-card:hover .value-icon {
-          background: rgba(47, 128, 255, 0.1);
-          border-color: var(--accent-blue);
-          box-shadow: 0 0 10px var(--accent-blue-glow);
-        }
-
-        .value-icon {
-          width: 36px;
-          height: 36px;
-          border-radius: 6px;
-          background: rgba(47, 128, 255, 0.05);
-          border: 1px solid var(--border-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent-blue);
-          flex-shrink: 0;
-          transition: var(--transition-fast);
+          transform: translateY(-4px) translateZ(0);
+          border-color: rgba(47, 128, 255, 0.45);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), 0 0 18px rgba(47, 128, 255, 0.18);
         }
 
         .value-info h4 {
@@ -453,7 +417,32 @@ export default function About() {
           font-weight: 600;
           color: var(--text-primary);
           margin-bottom: 0.25rem;
-          transition: color var(--transition-fast);
+          transition: color 0.35s ease;
+        }
+
+        .value-card:hover .value-info h4 {
+          color: var(--accent-blue) !important;
+        }
+
+        .value-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 8px;
+          background: rgba(47, 128, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--accent-blue);
+          flex-shrink: 0;
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .value-card:hover .value-icon {
+          background: rgba(47, 128, 255, 0.14);
+          border-color: var(--accent-blue);
+          box-shadow: 0 0 12px rgba(47, 128, 255, 0.35);
+          transform: scale(1.06);
         }
 
         .value-info p {
@@ -667,17 +656,131 @@ export default function About() {
           margin: 0;
         }
 
-        .book-showcase-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-top: 4rem;
+        .choose-us-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
           width: 100%;
+          margin-top: 5rem;
         }
 
-        @media (min-width: 993px) {
-          .choose-us-title-col .section-title {
-            white-space: nowrap;
+        /* Ambient keyframe animations */
+
+        @keyframes iconPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(47, 128, 255, 0.15); }
+          50% { box-shadow: 0 0 22px 6px rgba(47, 128, 255, 0.35); }
+        }
+
+        @keyframes borderShimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
+        .choose-card {
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+          padding: 2.25rem 1.75rem;
+          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: border-color 400ms ease,
+                      box-shadow 400ms ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+
+        /* Subtle top shimmer line — always visible */
+        .choose-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(47, 128, 255, 0.1) 15%,
+            rgba(47, 128, 255, 0.7) 50%,
+            rgba(47, 128, 255, 0.1) 85%,
+            transparent 100%
+          );
+          background-size: 200% 100%;
+          animation: borderShimmer 4s linear infinite;
+          transition: filter 400ms ease, height 400ms ease;
+        }
+
+        .choose-card:nth-child(1)::before { animation-delay: 0s; }
+        .choose-card:nth-child(2)::before { animation-delay: 1.25s; }
+        .choose-card:nth-child(3)::before { animation-delay: 2.5s; }
+        .choose-card:nth-child(4)::before { animation-delay: 3.75s; }
+
+        .choose-card:hover {
+          border-color: rgba(47, 128, 255, 0.3);
+          box-shadow: 0 16px 40px rgba(47, 128, 255, 0.1);
+        }
+
+        .choose-card:hover::before {
+          filter: brightness(2.5);
+          height: 2px;
+        }
+
+        .choose-card-icon-wrap {
+          width: 48px;
+          height: 48px;
+          border-radius: 12px;
+          background: rgba(47, 128, 255, 0.1);
+          border: 1px solid rgba(47, 128, 255, 0.25);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--accent-blue);
+          transition: background 300ms ease, transform 300ms ease;
+          animation: iconPulse 4s ease-in-out infinite;
+        }
+
+        .choose-card:nth-child(1) .choose-card-icon-wrap { animation-delay: 0.5s; }
+        .choose-card:nth-child(2) .choose-card-icon-wrap { animation-delay: 1.5s; }
+        .choose-card:nth-child(3) .choose-card-icon-wrap { animation-delay: 2.5s; }
+        .choose-card:nth-child(4) .choose-card-icon-wrap { animation-delay: 3.5s; }
+
+        .choose-card:hover .choose-card-icon-wrap {
+          background: rgba(47, 128, 255, 0.2);
+          transform: scale(1.08);
+          animation-play-state: paused;
+        }
+
+        .choose-card-title {
+          font-family: var(--font-serif);
+          font-size: 1.15rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin: 0;
+          letter-spacing: -0.01em;
+        }
+
+        .choose-card-desc {
+          font-size: 0.875rem;
+          line-height: 1.65;
+          color: var(--text-secondary);
+          margin: 0;
+        }
+
+        @media (max-width: 992px) {
+          .choose-us-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .choose-us-cards-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
           }
         }
 
@@ -733,7 +836,17 @@ export default function About() {
 
         @media (max-width: 768px) {
           .cta-title {
-            font-size: 2.25rem;
+            font-size: 1.6rem !important;
+            line-height: 1.25 !important;
+            padding: 0 0.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .cta-title {
+            font-size: 1.35rem !important;
+            line-height: 1.3 !important;
+            padding: 0;
           }
         }
 

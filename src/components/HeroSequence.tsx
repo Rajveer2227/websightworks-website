@@ -17,7 +17,7 @@ interface SceneConfig {
 }
 
 const scenes: SceneConfig[] = [
-  { label: 'SERVICE 01', text: 'WEBSITE\nDEVELOPMENT', subtext: 'Building fast, responsive, and conversion-focused websites.', start: 0.05, end: 0.16 },
+  { label: 'SERVICE 01', text: 'WEBSITE\nDEVELOPMENT', subtext: 'Building fast, responsive, and conversion-focused websites.', start: 0.0, end: 0.16 },
   { label: 'SERVICE 02', text: 'E-COMMERCE\nSTORES', subtext: 'Creating seamless online shopping experiences that drive sales.', start: 0.19, end: 0.30 },
   { label: 'SERVICE 03', text: 'DIGITAL\nMARKETING', subtext: 'Growing your brand through strategic digital marketing campaigns.', start: 0.33, end: 0.44 },
   { label: 'SERVICE 04', text: 'CUSTOM\nWEB APPS', subtext: 'Developing scalable web applications tailored to your business.', start: 0.47, end: 0.58 },
@@ -210,6 +210,27 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           canvas.style.height = `${height}px`;
           forceRedraw.current = true;
         }
+
+        // Adjust watermark logo anchor offset on ultra-wide & 4K displays (>1920px)
+        // to maintain visual lock with 3D canvas aspect cover scaling
+        if (fixedLogoRef.current) {
+          if (width > 1920) {
+            const scale = Math.max(width / 1920, height / 1080);
+            const rightRem = 10.2 * scale;
+            const aspect = width / height;
+            let bottomRem = 3.5 * scale;
+            if (aspect > (1920 / 1080)) {
+              const dh = 1080 * scale;
+              const cropY = (dh - height) / 2;
+              bottomRem = Math.max(3.5, (56.0 * scale - cropY) / 16);
+            }
+            fixedLogoRef.current.style.right = `${rightRem}rem`;
+            fixedLogoRef.current.style.bottom = `${bottomRem}rem`;
+          } else {
+            fixedLogoRef.current.style.right = '';
+            fixedLogoRef.current.style.bottom = '';
+          }
+        }
       }
     };
 
@@ -252,9 +273,9 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
             let yOffset = 20;
 
             if (localProgress < 0.2) {
-              // Fade In
-              opacity = localProgress / 0.2;
-              yOffset = 20 * (1 - opacity);
+              // Fade In (Skipped for the initial scene so it is 100% visible on page load)
+              opacity = idx === 0 ? 1 : localProgress / 0.2;
+              yOffset = idx === 0 ? 0 : 20 * (1 - opacity);
             } else if (localProgress > 0.8 && !scene.isLogo) {
               // Fade Out (Skipped for the final logo scene so it remains visible at the end)
               opacity = (1 - localProgress) / 0.2;
@@ -312,7 +333,10 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
               if (el) textRefs.current[idx] = el;
             }}
             className="hero-scene-element"
-            style={{ opacity: 0, visibility: 'hidden' }}
+            style={{ 
+              opacity: idx === 0 ? 1 : 0, 
+              visibility: idx === 0 ? 'visible' : 'hidden' 
+            }}
           >
             {scene.isLogo ? (
               <div className="logo-scene-wrapper">
@@ -363,8 +387,8 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
       <style>{`
         .hero-fixed-logo-wrapper {
           position: absolute;
-          bottom: 2.6rem;
-          right: 9.4rem;
+          bottom: 2.8rem;
+          right: 10.2rem;
           transform: translate(50%, 50%);
           z-index: 10;
           pointer-events: none;
@@ -405,10 +429,17 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           filter: brightness(0.65) contrast(1.1);
         }
 
+        @media (min-width: 1600px) {
+          .hero-fixed-logo-wrapper {
+            bottom: 3.5rem;
+            right: 10.2rem;
+          }
+        }
+
         @media (max-width: 1400px) {
           .hero-fixed-logo-wrapper {
-            bottom: 2.6rem;
-            right: 9.4rem;
+            bottom: 2.8rem;
+            right: 10.2rem;
           }
         }
 

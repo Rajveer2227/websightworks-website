@@ -4,9 +4,19 @@
   display: inline-block;
 }
 
-/* Prevent word splitting across characters */
+/* Prevent word splitting across characters on desktop, allow wrap on mobile */
 .word {
   white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .flip-text-wrapper {
+    max-width: 100%;
+    text-align: center;
+  }
+  .word {
+    white-space: normal;
+  }
 }
 
 /* Individual character container */

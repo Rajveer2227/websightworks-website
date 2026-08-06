@@ -192,8 +192,20 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Contact" 
-        description="Connect with our principal engineering team. Draft your digital product scope and get a custom proposal."
+        title="Contact Us | Websight Works Kolhapur" 
+        description="Get in touch with Websight Works in Kolhapur, Maharashtra. Discuss your website development, e-commerce, custom web application, or AI solution project."
+        schemas={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ContactPage',
+            'name': 'Contact Websight Works',
+            'url': 'https://websightworks.com/contact',
+            'description': 'Contact the Websight Works team in Kolhapur, Maharashtra for website development and digital solutions.',
+            'mainEntity': {
+              '@id': 'https://websightworks.com/#localbusiness',
+            },
+          },
+        ]}
       />
 
       <div className="contact-page-wrapper">
@@ -735,6 +747,13 @@ export default function Contact() {
           opacity: 0;
           transform: translateY(10px);
           animation: textReveal 0.4s ease-out 0.85s forwards;
+        }
+
+        @media (max-width: 768px) {
+          .success-desc {
+            white-space: normal;
+            word-break: break-word;
+          }
         }
 
         @keyframes textReveal {
