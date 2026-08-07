@@ -216,7 +216,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         if (fixedLogoRef.current) {
           if (width > 1920) {
             const scale = Math.max(width / 1920, height / 1080);
-            const rightRem = 10.2 * scale;
+            const rightRem = 8.5 * scale;
             const aspect = width / height;
             let bottomRem = 3.5 * scale;
             if (aspect > (1920 / 1080)) {
@@ -388,7 +388,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         .hero-fixed-logo-wrapper {
           position: absolute;
           bottom: 2.8rem;
-          right: 10.2rem;
+          right: 8.5rem;
           transform: translate(50%, 50%);
           z-index: 10;
           pointer-events: none;
@@ -432,21 +432,21 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         @media (min-width: 1600px) {
           .hero-fixed-logo-wrapper {
             bottom: 3.5rem;
-            right: 10.2rem;
+            right: 8.5rem;
           }
         }
 
         @media (max-width: 1400px) {
           .hero-fixed-logo-wrapper {
             bottom: 2.8rem;
-            right: 10.2rem;
+            right: 8.5rem;
           }
         }
 
         @media (max-width: 1024px) {
           .hero-fixed-logo-wrapper {
             bottom: 3.2rem;
-            right: 6.8rem;
+            right: 5.8rem;
           }
           .hero-fixed-logo-film {
             width: 58px;
@@ -461,7 +461,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         @media (max-width: 768px) {
           .hero-fixed-logo-wrapper {
             bottom: 2.8rem;
-            right: 5.2rem;
+            right: 4.4rem;
           }
           .hero-fixed-logo-film {
             width: 48px;

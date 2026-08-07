@@ -36,6 +36,8 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
     // 1. Entrance Animations for Preloader Elements
     const introTl = gsap.timeline();
     
+    gsap.set('.preloader-divider', { yPercent: -50, scaleX: 0, opacity: 1 });
+
     // Scale horizontal divider line
     introTl.to('.preloader-divider', {
       scaleX: 1,
@@ -292,6 +294,24 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
           flex-wrap: nowrap;
         }
 
+        .preloader {
+          height: 100vh;
+          height: 100dvh;
+        }
+
+        .preloader-panel-top,
+        .preloader-panel-bottom {
+          will-change: transform;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+
+        .preloader-divider {
+          will-change: transform, opacity;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+
         @media (max-width: 480px) {
           .preloader-title-text {
             font-size: clamp(0.9rem, 4.2vw, 1.25rem) !important;
@@ -310,7 +330,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
           top: 0,
           left: 0,
           width: '100%',
-          height: '50vh',
+          height: 'calc(50% + 1px)',
           background: '#050505',
           zIndex: 1,
           overflow: 'hidden'
@@ -325,7 +345,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
           bottom: 0,
           left: 0,
           width: '100%',
-          height: '50vh',
+          height: 'calc(50% + 1px)',
           background: '#050505',
           zIndex: 1,
           overflow: 'hidden'
@@ -340,11 +360,11 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
           top: '50%',
           left: 0,
           width: '100%',
-          height: '1px',
-          background: 'linear-gradient(to right, transparent, rgba(47, 128, 255, 0.3) 15%, rgba(47, 128, 255, 0.7) 50%, rgba(47, 128, 255, 0.3) 85%, transparent)',
-          boxShadow: '0 0 10px rgba(47, 128, 255, 0.25)',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(47, 128, 255, 0.4) 15%, #2F80FF 50%, rgba(47, 128, 255, 0.4) 85%, transparent 100%)',
+          boxShadow: '0 0 12px rgba(47, 128, 255, 0.6), 0 0 4px rgba(47, 128, 255, 0.8)',
           zIndex: 3,
-          transform: 'scaleX(0)',
+          transform: 'translateY(-50%) scaleX(0)',
           transformOrigin: '50% 50%'
         }}
       />
