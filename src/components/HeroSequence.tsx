@@ -156,10 +156,8 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         start: 'top top',
         end: `+=${totalScrollDistance}`,
         pin: true,
-        pinType: ScrollTrigger.isTouch ? 'transform' : 'fixed',
         scrub: 1.5, // Butter-smooth heavy scroll inertia
         pinSpacing: true,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           scrollProgress.current = self.progress;
