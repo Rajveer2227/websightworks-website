@@ -149,13 +149,13 @@ export default function Navbar() {
                           onClick={() => setIsMegaOpen(false)}
                         >
                           <div className="service-icon-wrapper">
-                            {Icon && <Icon size={20} className="service-icon" />}
+                            {Icon && <Icon size={17} className="service-icon" />}
                           </div>
                           <div className="service-info">
                             <span className="service-category-tag">{service.categoryLabel}</span>
                             <span className="service-title">{service.title}</span>
                             <span className="service-desc">{service.shortDesc}</span>
-                            <span className="service-learn-more">Learn More <ArrowRight size={12} className="arrow-icon" /></span>
+                            <span className="service-learn-more">Learn More <ArrowRight size={11} className="arrow-icon" /></span>
                           </div>
                         </Link>
                       );
@@ -411,8 +411,8 @@ export default function Navbar() {
           top: 100%;
           left: 50%;
           transform: translateX(-50%) translateY(20px);
-          width: 960px;
-          padding: 2rem;
+          width: 840px;
+          padding: 1.5rem;
           border-radius: 12px;
           opacity: 0;
           visibility: hidden;
@@ -444,13 +444,13 @@ export default function Navbar() {
 
         .mega-menu-grid {
           display: grid;
-          grid-template-columns: 240px minmax(0, 1fr);
-          gap: 2.5rem;
+          grid-template-columns: 210px minmax(0, 1fr);
+          gap: 1.75rem;
         }
 
         .mega-menu-sidebar {
           border-right: 1px solid var(--border-color);
-          padding-right: 1.5rem;
+          padding-right: 1.25rem;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -458,39 +458,39 @@ export default function Navbar() {
 
         .sidebar-tag {
           color: var(--accent-blue);
-          font-size: 0.6875rem;
+          font-size: 0.65rem;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.5rem;
           display: block;
         }
 
         .mega-menu-sidebar h4 {
-          font-size: 1.5rem;
+          font-size: 1.3rem;
           line-height: 1.25;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.5rem;
           color: var(--text-primary);
         }
 
         .mega-menu-sidebar p {
-          font-size: 0.8125rem;
+          font-size: 0.78rem;
           color: var(--text-secondary);
-          line-height: 1.5;
-          margin-bottom: 1.5rem;
+          line-height: 1.45;
+          margin-bottom: 1.25rem;
         }
 
         .sidebar-btn {
-          font-size: 0.8125rem;
+          font-size: 0.78rem;
           font-weight: 600;
           color: #FFFFFF;
           background: var(--accent-blue);
-          padding: 0.75rem 1.25rem;
+          padding: 0.625rem 1.1rem;
           border-radius: 6px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 0.5rem;
+          gap: 0.4rem;
           transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
           text-decoration: none;
           align-self: flex-start;
@@ -513,14 +513,14 @@ export default function Navbar() {
         .mega-menu-services {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          row-gap: 1rem;
-          column-gap: 1.25rem;
+          row-gap: 0.75rem;
+          column-gap: 1rem;
         }
 
         .mega-service-card {
           display: flex;
-          gap: 1rem;
-          padding: 1.25rem 1.5rem;
+          gap: 0.85rem;
+          padding: 0.9rem 1.1rem;
           border-radius: 10px;
           background: rgba(255, 255, 255, 0.01);
           border: 1px solid rgba(255, 255, 255, 0.02);
@@ -535,9 +535,9 @@ export default function Navbar() {
         }
 
         .service-icon-wrapper {
-          width: 36px;
-          height: 36px;
-          border-radius: 8px;
+          width: 32px;
+          height: 32px;
+          border-radius: 7px;
           background: rgba(255, 255, 255, 0.03);
           border: 1px solid var(--border-color);
           display: flex;
@@ -561,21 +561,21 @@ export default function Navbar() {
         }
 
         .service-category-tag {
-          font-size: 0.625rem;
+          font-size: 0.6rem;
           font-weight: 700;
           color: var(--accent-blue);
           letter-spacing: 0.12em;
           text-transform: uppercase;
-          margin-bottom: 0.35rem;
+          margin-bottom: 0.25rem;
           opacity: 0.8;
           display: block;
         }
 
         .service-title {
-          font-size: 0.9375rem;
+          font-size: 0.875rem;
           font-weight: 600;
           color: rgba(255, 255, 255, 0.85);
-          margin-bottom: 0.35rem;
+          margin-bottom: 0.25rem;
           transition: color 0.3s ease;
         }
 
@@ -584,10 +584,10 @@ export default function Navbar() {
         }
 
         .service-desc {
-          font-size: 0.75rem;
+          font-size: 0.72rem;
           color: var(--text-secondary);
-          line-height: 1.4;
-          margin-bottom: 0.875rem;
+          line-height: 1.35;
+          margin-bottom: 0.4rem;
           transition: color 0.3s ease;
           white-space: nowrap;
           overflow: hidden;
