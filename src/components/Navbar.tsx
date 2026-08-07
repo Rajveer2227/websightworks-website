@@ -757,6 +757,7 @@ export default function Navbar() {
           flex-direction: column;
           gap: 0.75rem;
           margin-top: 0.5rem;
+          margin-bottom: 1.25rem;
         }
 
         .mobile-nav-heading {

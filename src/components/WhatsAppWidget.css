@@ -25,8 +25,8 @@ body.preloader-active .whatsapp-widget-container {
 
 @media (max-width: 600px) {
   .whatsapp-widget-container {
-    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-    right: calc(34px + env(safe-area-inset-right, 0px));
+    bottom: calc(42px + env(safe-area-inset-bottom, 0px));
+    right: calc(36px + env(safe-area-inset-right, 0px));
   }
 }
 

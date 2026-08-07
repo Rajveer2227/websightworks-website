@@ -34,8 +34,8 @@ body.preloader-active .back-to-top-wrapper {
 
 @media (max-width: 600px) {
   .back-to-top-wrapper {
-    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
-    left: calc(34px + env(safe-area-inset-left, 0px));
+    bottom: calc(46px + env(safe-area-inset-bottom, 0px));
+    left: calc(36px + env(safe-area-inset-left, 0px));
   }
 }
 
