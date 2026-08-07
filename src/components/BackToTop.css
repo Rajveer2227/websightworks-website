@@ -9,8 +9,8 @@ body.preloader-active .back-to-top-wrapper {
 
 .back-to-top-wrapper {
   position: fixed;
-  bottom: 62px;
-  left: 24px;
+  bottom: 50px;
+  left: 20px;
   z-index: 9990;
   pointer-events: none;
   opacity: 0;
@@ -27,15 +27,15 @@ body.preloader-active .back-to-top-wrapper {
 
 @media (max-width: 1024px) {
   .back-to-top-wrapper {
-    bottom: calc(40px + env(safe-area-inset-bottom, 0px));
-    left: calc(28px + env(safe-area-inset-left, 0px));
+    bottom: calc(34px + env(safe-area-inset-bottom, 0px));
+    left: calc(38px + env(safe-area-inset-left, 0px));
   }
 }
 
 @media (max-width: 600px) {
   .back-to-top-wrapper {
-    bottom: calc(36px + env(safe-area-inset-bottom, 0px));
-    left: calc(28px + env(safe-area-inset-left, 0px));
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    left: calc(34px + env(safe-area-inset-left, 0px));
   }
 }
 

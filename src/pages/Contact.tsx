@@ -523,12 +523,13 @@ export default function Contact() {
 
         /* Contact Body layout */
         .contact-body-section {
-          padding-top: 2rem;
+          padding-top: 3.5rem;
+          padding-bottom: 4.5rem;
         }
 
         .form-column-wrap,
         .info-column-wrap {
-          margin-top: 4.5rem;
+          margin-top: 0;
         }
 
         @media (max-width: 992px) {
@@ -539,15 +540,35 @@ export default function Contact() {
         }
 
         .contact-form {
-          padding: 3.5rem;
+          padding: 1.75rem 2rem;
           display: flex;
           flex-direction: column;
           position: relative; /* Keep absolute overlays positioned correctly */
         }
 
+        .contact-form .form-group {
+          margin-bottom: 1rem;
+        }
+
+        .contact-form .form-label {
+          font-size: 0.68rem;
+          margin-bottom: 0.3rem;
+        }
+
+        .contact-form .form-input,
+        .contact-form .form-textarea {
+          padding: 0.65rem 0.8rem;
+          font-size: 0.875rem;
+          border-radius: 6px;
+        }
+
+        .contact-form .form-textarea {
+          min-height: 90px;
+        }
+
         @media (max-width: 768px) {
           .contact-form {
-            padding: 2rem 1.5rem;
+            padding: 1.75rem 1.25rem;
           }
         }
 
@@ -589,11 +610,11 @@ export default function Contact() {
 
         .custom-dropdown-options {
           position: absolute;
-          top: calc(100% + 8px);
+          top: calc(100% + 6px);
           left: 0;
           width: 100%;
           z-index: 50;
-          padding: 0.5rem;
+          padding: 0.4rem;
           margin: 0;
           list-style: none;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -602,12 +623,12 @@ export default function Contact() {
         }
 
         .custom-dropdown-option {
-          padding: 0.75rem 1rem;
+          padding: 0.6rem 0.85rem;
           border-radius: 4px;
           cursor: pointer;
           color: var(--text-secondary);
           transition: var(--transition-fast);
-          font-size: 0.9375rem;
+          font-size: 0.875rem;
         }
 
         .custom-dropdown-option:hover {
@@ -622,7 +643,9 @@ export default function Contact() {
 
         .submit-btn {
           width: 100%;
-          margin-top: 1.5rem;
+          margin-top: 1rem;
+          padding: 0.8rem 1.5rem;
+          font-size: 0.875rem;
         }
 
         /* Success screen */
@@ -765,29 +788,30 @@ export default function Contact() {
 
         /* Info columns coordinates */
         .info-col-title {
-          font-size: 2.25rem;
+          font-size: 1.65rem;
           line-height: 1.2;
-          margin-bottom: 1.5rem;
+          margin-bottom: 0.5rem;
         }
 
         .info-intro-text {
+          font-size: 0.875rem;
           color: var(--text-secondary);
-          line-height: 1.6;
-          margin-bottom: 3rem;
+          line-height: 1.5;
+          margin-bottom: 1.25rem;
         }
 
         .coordinates-list {
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
-          margin-bottom: 3rem;
+          gap: 0.6rem;
+          margin-bottom: 1.25rem;
         }
 
         .coord-card {
-          padding: 1.25rem;
+          padding: 0.7rem 0.85rem;
           display: flex;
           align-items: center;
-          gap: 1.25rem;
+          gap: 0.85rem;
           position: relative;
           transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
@@ -808,8 +832,8 @@ export default function Contact() {
         }
 
         .coord-icon {
-          width: 36px;
-          height: 36px;
+          width: 28px;
+          height: 28px;
           border-radius: 6px;
           background: rgba(255,255,255,0.02);
           border: 1px solid var(--border-color);
@@ -818,6 +842,7 @@ export default function Contact() {
           justify-content: center;
           color: var(--text-secondary);
           transition: var(--transition-fast);
+          flex-shrink: 0;
         }
 
         .coord-info {
@@ -826,14 +851,14 @@ export default function Contact() {
         }
 
         .coord-label {
-          font-size: 0.6875rem;
+          font-size: 0.62rem;
           color: var(--text-secondary);
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
 
         .coord-val {
-          font-size: 0.875rem;
+          font-size: 0.8rem;
           font-weight: 500;
           color: var(--text-primary);
           transition: color var(--transition-fast);
@@ -841,7 +866,7 @@ export default function Contact() {
 
         .copy-btn {
           position: absolute;
-          right: 1.25rem;
+          right: 0.85rem;
           background: transparent;
           border: none;
           color: var(--text-secondary);
@@ -860,7 +885,7 @@ export default function Contact() {
 
         /* Real Map HQ Coordinates */
         .abstract-map-container {
-          height: 350px;
+          height: 235px;
           width: 100%;
           border-radius: 12px;
           position: relative;
@@ -870,7 +895,7 @@ export default function Contact() {
 
         @media (max-width: 768px) {
           .abstract-map-container {
-            height: 260px;
+            height: 180px;
           }
         }
 

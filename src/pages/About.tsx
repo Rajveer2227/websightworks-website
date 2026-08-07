@@ -661,7 +661,7 @@ export default function About() {
           grid-template-columns: repeat(4, 1fr);
           gap: 1.5rem;
           width: 100%;
-          margin-top: 5rem;
+          margin-top: 7rem;
         }
 
         /* Ambient keyframe animations */
