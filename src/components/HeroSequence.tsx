@@ -190,24 +190,22 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
       ease: 'power1.out'
     }, 9.0);
 
-    // Throttled Canvas Resizer for Mobile Address Bar Collapses
+    // Canvas Resizer for Mobile Viewports & Device Rotations
     const resizeCanvas = (force = false) => {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      // Only resize if width changes (desktop resizing or device rotation)
-      // Ignore minor height adjustments (<120px) triggered by mobile address bars
-      if (force || width !== lastWidth.current || Math.abs(height - lastHeight.current) > 120) {
+      if (force || width !== lastWidth.current || Math.abs(height - lastHeight.current) > 10) {
         lastWidth.current = width;
         lastHeight.current = height;
 
-        const dpr = window.devicePixelRatio || 1;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
         const canvas = canvasRef.current;
         if (canvas) {
           canvas.width = width * dpr;
           canvas.height = height * dpr;
-          canvas.style.width = `${width}px`;
-          canvas.style.height = `${height}px`;
+          canvas.style.width = '100%';
+          canvas.style.height = '100%';
           forceRedraw.current = true;
         }
 
@@ -475,8 +473,9 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
 
         .hero-sequence-container {
           position: relative;
-          width: 100vw;
+          width: 100%;
           height: 100vh;
+          height: 100dvh;
           overflow: hidden;
           background: #050505;
         }

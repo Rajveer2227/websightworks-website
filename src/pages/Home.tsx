@@ -349,23 +349,23 @@ export default function Home() {
             <div className="timeline-steps">
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">01</span>
-                <h4 className="step-title">Discovery & Scope</h4>
-                <p>We analyze the client requirements, audit performance parameters, and script out the interactive narrative blueprint.</p>
+                <h4 className="step-title">Discover</h4>
+                <p>We understand your business, goals, audience, and requirements before planning the right digital solution.</p>
               </GlowBorderCard>
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">02</span>
-                <h4 className="step-title">Cinematic UI/UX</h4>
-                <p>We craft custom typography assets, structural wireframe layout maps, and micro-interaction prototypes.</p>
+                <h4 className="step-title">Design</h4>
+                <p>We create clean, modern designs focused on user experience, brand identity, and conversions.</p>
               </GlowBorderCard>
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">03</span>
-                <h4 className="step-title">High-Perf Engineering</h4>
-                <p>Our engineers build with modular React architectures, register 60fps canvas contexts, and secure API networks.</p>
+                <h4 className="step-title">Develop</h4>
+                <p>We build fast, secure, responsive websites and applications using modern technologies.</p>
               </GlowBorderCard>
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">04</span>
-                <h4 className="step-title">QA & Performance</h4>
-                <p>We run cross-browser profiling, responsive breakpoint reviews, and audit screen-readers for compliance.</p>
+                <h4 className="step-title">Launch & Support</h4>
+                <p>After testing everything thoroughly, we deploy your project and provide ongoing support whenever needed.</p>
               </GlowBorderCard>
             </div>
           </div>
