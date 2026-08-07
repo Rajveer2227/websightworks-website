@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 // Data-Driven Scene Configuration for Hero Story
 interface SceneConfig {
@@ -155,6 +156,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         start: 'top top',
         end: `+=${totalScrollDistance}`,
         pin: true,
+        pinType: ScrollTrigger.isTouch ? 'transform' : 'fixed',
         scrub: 1.5, // Butter-smooth heavy scroll inertia
         pinSpacing: true,
         anticipatePin: 1,
@@ -475,7 +477,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           position: relative;
           width: 100%;
           height: 100vh;
-          height: 100svh;
+          min-height: 100vh;
           overflow: hidden;
           background: #050505;
         }
