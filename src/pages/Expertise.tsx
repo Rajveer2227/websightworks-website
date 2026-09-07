@@ -12,6 +12,7 @@ import WaveGridBackground from '../components/ui/wave-grid-background';
 import GlowBorderCard from '../components/ui/glow-border-card';
 import { Particles } from '../components/Particles';
 import { initScrollReveal } from '../utils/scrollReveal';
+import { SITE_CONFIG } from '../constants/site';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +23,10 @@ export default function Expertise() {
 
   useEffect(() => {
     initScrollReveal();
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
+    return () => clearTimeout(timer);
   }, [id]);
 
   useGSAP(() => {
@@ -54,35 +59,35 @@ export default function Expertise() {
   }
 
 
-  // Localized production SEO metadata lookup
+  // Service-first production SEO metadata lookup
   const serviceSEO = {
     'website-development': {
-      title: 'Website Development Company in Kolhapur | Websight Works',
-      description: 'High-performance custom website development in Kolhapur, Maharashtra. We build fast, mobile-responsive, and conversion-focused corporate websites.',
+      title: 'Custom Website Development Services | Websight Works',
+      description: 'High-performance custom website development engineered for speed, scalability, and conversions. Tailored digital experiences for businesses in India and worldwide.',
     },
     'e-commerce': {
-      title: 'E-Commerce Website Development in Kolhapur | Websight Works',
-      description: 'Custom e-commerce website development company in Kolhapur. Build high-converting online stores with secure checkout and scalable architecture.',
+      title: 'Custom E-Commerce Website Development | Websight Works',
+      description: 'Build high-converting, scalable e-commerce stores with seamless shopping experiences, secure payments, and modern architecture.',
     },
     'custom-apps': {
-      title: 'Custom Web Application Development Kolhapur | Websight Works',
-      description: 'Custom software development and web applications in Kolhapur, Maharashtra. Tailored SaaS platforms, dashboards, and enterprise portals.',
+      title: 'Custom Web Application & Software Development | Websight Works',
+      description: 'Scalable custom web applications and software solutions tailored to your business workflow, operations, and growth.',
     },
     'ai-solutions': {
-      title: 'AI Solutions & Machine Learning Integration Kolhapur | Websight Works',
-      description: 'Intelligent AI solutions and machine learning integration in Kolhapur. Automate workflows, customer support, and business operations.',
+      title: 'AI-Powered Solutions & Intelligent Automation | Websight Works',
+      description: 'Custom AI solutions and intelligent integrations designed to automate operations, enhance decision-making, and modernize business workflows.',
     },
     'data-analytics': {
-      title: 'Data Analytics & Dashboard Development Kolhapur | Websight Works',
-      description: 'Data analytics and interactive dashboard development in Kolhapur. Transform complex business data into real-time actionable insights.',
+      title: 'Data Analytics & Business Intelligence Dashboards | Websight Works',
+      description: 'Transform raw business data into actionable real-time insights with custom analytics pipelines and interactive visualization dashboards.',
     },
     'ui-ux-design': {
-      title: 'UI UX Design Services in Kolhapur | Websight Works',
-      description: 'Professional UI/UX design services in Kolhapur. We craft intuitive user interfaces, design systems, and wireframes that drive engagement.',
+      title: 'UI/UX Design & Digital Product Design | Websight Works',
+      description: 'User-centric UI/UX design, wireframing, and interactive design systems that transform complex workflows into intuitive digital products.',
     },
     'digital-marketing': {
-      title: 'Social Media Marketing Agency in Kolhapur | Websight Works',
-      description: 'Strategic social media marketing and brand campaigns in Kolhapur. Drive audience engagement, brand awareness, and digital growth.',
+      title: 'Social Media Marketing & Brand Growth | Websight Works',
+      description: 'Data-driven social media marketing and brand campaigns designed to expand digital reach, drive qualified engagement, and accelerate growth.',
     },
   }[service.id] || {
     title: `${service.title} | Websight Works`,
@@ -93,16 +98,16 @@ export default function Expertise() {
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `https://websightworks.com/expertise/${service.id}#service`,
+    '@id': `${SITE_CONFIG.siteUrl}/expertise/${service.id}#service`,
     'name': service.title,
     'serviceType': service.title,
     'category': service.categoryLabel,
     'description': service.description,
     'provider': {
       '@type': 'Organization',
-      'name': 'Websight Works',
-      'url': 'https://websightworks.com',
-      '@id': 'https://websightworks.com/#organization',
+      'name': SITE_CONFIG.name,
+      'url': SITE_CONFIG.siteUrl,
+      '@id': `${SITE_CONFIG.siteUrl}/#organization`,
     },
     'areaServed': [
       {
@@ -116,6 +121,10 @@ export default function Expertise() {
       {
         '@type': 'Country',
         'name': 'India',
+      },
+      {
+        '@type': 'AdministrativeArea',
+        'name': 'Worldwide',
       },
     ],
     'hasOfferCatalog': {
@@ -147,6 +156,9 @@ export default function Expertise() {
 
   const toggleFaq = (index: number) => {
     setActiveFaq(activeFaq === index ? null : index);
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
   };
 
   return (
@@ -168,48 +180,33 @@ export default function Expertise() {
             refresh
           />
           <div className="container">
-            <span className="section-title-tag" data-reveal="label">
-              <ShinyText
-                text="OUR EXPERTISE"
-                speed={3}
-                color="#050505"
-                shineColor="var(--accent-blue)"
-                spread={90}
-              />
-            </span>
-            <h1 className="service-hero-title serif-heading" data-reveal="title">{service.title}</h1>
-            <p className="service-hero-subtitle" data-reveal="paragraph">{service.heroText}</p>
-          </div>
-        </section>
-
-        {/* 2. Overview */}
-        <section className="section service-overview" data-reveal="section">
-          <div className="container">
-            <div className="grid-2">
-              <div>
-                <h2 className="serif-heading sub-section-title" data-reveal="title">Why It Matters</h2>
-              </div>
-              <p className="overview-large-text" data-reveal="paragraph">{service.overview}</p>
+            <div className="service-hero-tag-row">
+              <span className="section-title-tag" data-reveal="label">
+                <ShinyText
+                  text="OUR EXPERTISE"
+                  speed={3}
+                  color="#050505"
+                  shineColor="var(--accent-blue)"
+                  spread={90}
+                />
+              </span>
+              {(service.id === 'data-analytics' || service.id === 'digital-marketing') && (
+                <span className="service-hero-coming-soon-badge">Coming Soon</span>
+              )}
             </div>
+            <h1 className="service-hero-title serif-heading" data-reveal="title">{service.title}</h1>
+            <p className="service-hero-subtitle" data-reveal="paragraph">{service.overview}</p>
           </div>
         </section>
 
         {/* 3. The Websight Works Advantage */}
         <section className="section service-challenges" data-reveal="section">
           <div className="container">
-            {/* Header: Left Heading (1 line), Right Subtext */}
-            <div className="advantage-header-grid">
-              <div>
-                <h2 className="section-title serif-heading advantage-header-title" data-reveal="title">
-                  How We Deliver Better Results
-                </h2>
-              </div>
-              <div className="advantage-header-sub-wrapper">
-                <p className="section-subtitle" data-reveal="paragraph">
-                  Built around your goals, designed to<br />
-                  deliver measurable business results.
-                </p>
-              </div>
+            {/* Header: Section Heading */}
+            <div className="advantage-header">
+              <h2 className="section-title serif-heading" data-reveal="title">
+                How We Deliver Better Results
+              </h2>
             </div>
 
             {/* 2-Column Comparison Layout */}
@@ -309,7 +306,7 @@ export default function Expertise() {
         </section>
 
         {/* 9. Conversion CTA */}
-        <section className="section service-cta" style={{ position: 'relative', overflow: 'hidden' }}>
+        <section className="section home-cta-section" style={{ position: 'relative', overflow: 'hidden' }}>
           <WaveGridBackground
             colorBase="#ffffff"
             colorHigh="#2F80FF"
@@ -318,8 +315,8 @@ export default function Expertise() {
             gridSize={40}
           />
           <div className="container" style={{ position: 'relative', zIndex: 10 }} data-reveal="section">
-            <div className="service-cta-card glass-panel" data-reveal="cta">
-              <div className="service-cta-content">
+            <div className="glass-panel home-cta-card" data-reveal="cta">
+              <div className="cta-content">
                 <span className="section-title-tag" data-reveal="label">
                   <ShinyText
                     text="START YOUR PROJECT"
@@ -329,7 +326,7 @@ export default function Expertise() {
                     spread={90}
                   />
                 </span>
-                <h2 className="cta-title serif-heading" data-reveal="title">
+                <h2 className="cta-title serif-heading">
                   <FlipTextCycle
                     texts={[
                       "Let's Build Something Exceptional.",
@@ -401,17 +398,41 @@ export default function Expertise() {
         }
 
         .service-hero-subtitle {
-          font-size: 1.25rem;
+          font-size: 1.2rem;
           color: #4A4A4A !important;
-          max-width: 700px;
-          line-height: 1.7;
-          white-space: pre-line;
+          max-width: 840px;
+          line-height: 1.75;
+        }
+
+        .service-hero-tag-row {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
         }
 
         .service-hero .section-title-tag {
           background-color: rgba(47, 128, 255, 0.06) !important;
           border-color: rgba(47, 128, 255, 0.25) !important;
           color: var(--accent-blue) !important;
+          margin-bottom: 0 !important;
+        }
+
+        .service-hero-coming-soon-badge {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #ffffff;
+          background: linear-gradient(135deg, #2F80ED 0%, #1551AF 100%);
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          padding: 0.35rem 0.85rem;
+          border-radius: 100px;
+          line-height: 1;
+          box-shadow: 0 2px 10px rgba(47, 128, 255, 0.35);
         }
 
         @media (max-width: 768px) {
@@ -423,57 +444,14 @@ export default function Expertise() {
           }
         }
 
-        /* Overview */
-        .service-overview .grid-2 {
-          align-items: center;
-        }
-
-        .sub-section-title {
-          font-size: 2.25rem;
-          line-height: 1.2;
-        }
-
-        .overview-large-text {
-          font-size: 1.125rem;
-          color: var(--text-secondary);
-          line-height: 1.8;
-        }
-
         /* Advantage Comparison Section */
-        .advantage-header-grid {
-          display: grid;
-          grid-template-columns: auto 1fr;
-          gap: 4rem;
-          align-items: center;
-          margin-bottom: 7.5rem;
+        .advantage-header {
+          margin-bottom: 5.5rem;
         }
 
-        .advantage-header-title {
-          white-space: nowrap;
-        }
-
-        .advantage-header-sub-wrapper {
-          display: flex;
-          justify-content: flex-end;
-        }
-
-        .advantage-header-grid .section-subtitle {
-          color: var(--text-secondary);
-          font-size: 1.125rem;
-          line-height: 1.7;
-          text-align: left;
-        }
-
-        @media (max-width: 992px) {
-          .advantage-header-grid {
-            grid-template-columns: 1fr;
-            gap: 1.25rem;
-          }
-          .advantage-header-title {
-            white-space: normal;
-          }
-          .advantage-header-sub-wrapper {
-            justify-content: flex-start;
+        @media (max-width: 768px) {
+          .advantage-header {
+            margin-bottom: 3.5rem;
           }
         }
 
@@ -661,6 +639,19 @@ export default function Expertise() {
           }
         }
 
+        @media (max-width: 480px) {
+          .timeline-line {
+            left: 14px;
+          }
+          .process-grid {
+            padding-left: 2rem;
+            gap: 1.5rem;
+          }
+          .timeline-step-card .glow-card-inner {
+            padding: 1.75rem 1.25rem;
+          }
+        }
+
         .timeline-step-card {
           height: 100% !important;
           width: 100%;
@@ -845,59 +836,53 @@ export default function Expertise() {
           line-height: 1.6;
         }
 
-        /* Service CTA */
-        .service-cta-card {
-          padding: 6rem 3rem;
+        /* Final Conversion CTA */
+        .home-cta-section {
+          background-color: #ffffff !important;
+          border-top: 1px solid rgba(0, 0, 0, 0.08);
+          border-bottom: none;
+        }
+
+        .home-cta-card {
+          padding: 5rem;
+          border-radius: 16px;
+          overflow: hidden;
+          position: relative;
           text-align: center;
           background: #111111 !important;
           border: 1px solid rgba(255, 255, 255, 0.08) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
           box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          border-radius: 16px;
           transform: translateZ(0);
           will-change: transform;
         }
 
-        .service-cta-content {
-          max-width: 680px;
+        @media (max-width: 768px) {
+          .home-cta-card {
+            padding: 3rem 1.5rem;
+          }
+        }
+
+        .cta-content {
+          position: relative;
+          z-index: 2;
+          max-width: 1100px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 1.5rem;
+          width: 100%;
         }
 
         .cta-title {
           font-size: 3.5rem;
-          line-height: 1.1;
-          color: #FFFFFF;
-        }
-
-        .cta-desc {
-          font-size: 1.125rem;
-          color: var(--text-secondary);
-          line-height: 1.6;
-        }
-
-        .cta-bg-glow {
-          position: absolute;
-          bottom: -50px;
-          right: -50px;
-          width: 300px;
-          height: 300px;
-          background: radial-gradient(circle, rgba(47,128,255,0.08) 0%, rgba(47,128,255,0) 70%);
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 1;
+          line-height: 1.15;
+          color: #ffffff;
         }
 
         @media (max-width: 768px) {
-          .service-cta-card {
-            padding: 3rem 1.25rem;
-          }
           .cta-title {
             font-size: 1.6rem !important;
             line-height: 1.25 !important;
@@ -911,6 +896,28 @@ export default function Expertise() {
             line-height: 1.3 !important;
             padding: 0;
           }
+        }
+
+        .cta-desc {
+          color: var(--text-secondary);
+          line-height: 1.6;
+          margin-top: 2rem;
+          margin-bottom: 1.5rem;
+          max-width: 680px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .cta-bg-glow {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(47, 128, 255, 0.1) 0%, transparent 70%);
+          pointer-events: none;
+          z-index: 1;
         }
       `}</style>
     </>

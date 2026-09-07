@@ -7,6 +7,7 @@ import ShinyText from '../components/ShinyText';
 import FlipTextCycle from '../components/ui/flip-text-cycle';
 import WaveGridBackground from '../components/ui/wave-grid-background';
 import { initScrollReveal } from '../utils/scrollReveal';
+import { SITE_CONFIG } from '../constants/site';
 
 export default function About() {
   useEffect(() => {
@@ -16,17 +17,17 @@ export default function About() {
   return (
     <>
       <SEO 
-        title="About Us | Websight Works - Digital Solutions Company Kolhapur" 
-        description="Learn about Websight Works, a leading digital solutions agency in Kolhapur, Maharashtra. Explore our mission, vision, leadership, and team crafting custom web applications and websites."
+        title="About Us | Websight Works - Digital Technology Company" 
+        description="Learn about Websight Works, a digital solutions company in Kolhapur, Maharashtra. Explore our mission, leadership, and team building modern web applications and websites."
         schemas={[
           {
             '@context': 'https://schema.org',
             '@type': 'AboutPage',
             'name': 'About Websight Works',
-            'url': 'https://websightworks.com/about',
+            'url': `${SITE_CONFIG.siteUrl}/about`,
             'description': 'Learn about Websight Works, a premier digital agency in Kolhapur, Maharashtra building custom websites, web apps, and AI solutions.',
             'mainEntity': {
-              '@id': 'https://websightworks.com/#organization',
+              '@id': `${SITE_CONFIG.siteUrl}/#organization`,
             },
           },
         ]}
@@ -89,14 +90,14 @@ export default function About() {
                   <div className="value-icon"><Eye size={20} /></div>
                   <div className="value-info">
                     <h4>Our Vision</h4>
-                    <p>To empower businesses with innovative digital solutions that inspire growth, strengthen brands, and create lasting impact.</p>
+                    <p>To lead the future of digital innovation by shaping tomorrow’s digital landscape with intelligent and impactful solutions.</p>
                   </div>
                 </div>
                 <div className="value-card glass-panel" data-reveal="card">
                   <div className="value-icon"><Award size={20} /></div>
                   <div className="value-info">
                     <h4>Our Mission</h4>
-                    <p>To deliver exceptional websites, software, AI solutions, and digital experiences through creativity, technology, and attention to detail.</p>
+                    <p>To build websites, custom applications, AI solutions and data-driven digital solutions that empower businesses to grow future-ready.</p>
                   </div>
                 </div>
               </div>
@@ -127,7 +128,7 @@ export default function About() {
                   <div className="founder-portrait-container">
                     <img 
                       src="/images/founder_img.jpeg" 
-                      alt="Viraj Chavan" 
+                      alt="Viraj Chavan - Founder & CEO of Websight Works" 
                       className="founder-portrait-img"
                     />
                   </div>
@@ -190,7 +191,7 @@ export default function About() {
                   <div className="founder-portrait-container">
                     <img 
                       src="/images/co-founder_img.jpeg" 
-                      alt="Rajveer Chavan" 
+                      alt="Rajveer Chavan - Co-Founder & COO of Websight Works" 
                       className="founder-portrait-img"
                     />
                   </div>
@@ -237,7 +238,7 @@ export default function About() {
                   <Palette size={24} />
                 </div>
                 <h3 className="choose-card-title">Fully Custom</h3>
-                <p className="choose-card-desc">No templates or shortcuts. Every solution is designed around your business goals.</p>
+                <p className="choose-card-desc">Built around your business. Every solution is designed around your business goals.</p>
               </div>
 
               <div className="choose-card glass-panel" data-reveal="card">
@@ -616,8 +617,9 @@ export default function About() {
             width: 100%;
           }
           .founder-portrait-container {
-            width: 280px;
-            height: 280px;
+            width: min(280px, 76vw);
+            height: auto;
+            aspect-ratio: 1;
           }
           .founder-row.reverse-row .founder-content-col,
           .founder-row:not(.reverse-row) .founder-content-col {
@@ -628,6 +630,13 @@ export default function About() {
           }
           .founder-bio {
             text-align: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .founder-name {
+            font-size: 1.85rem;
+            word-break: break-word;
           }
         }
 

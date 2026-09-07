@@ -8,6 +8,7 @@ import ShinyText from '../components/ShinyText';
 import FlipTextCycle from '../components/ui/flip-text-cycle';
 import WaveGridBackground from '../components/ui/wave-grid-background';
 import { initScrollReveal } from '../utils/scrollReveal';
+import { SITE_CONFIG } from '../constants/site';
 
 const categoryFilters: { id: ProjectCategoryType; label: string }[] = [
   { id: 'website', label: 'Websites' },
@@ -52,7 +53,7 @@ export default function Projects() {
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
             'name': 'Websight Works Portfolio',
-            'url': 'https://websightworks.com/projects',
+            'url': `${SITE_CONFIG.siteUrl}/projects`,
             'description': 'Explore high-performance websites and web applications developed by Websight Works.',
             'mainEntity': {
               '@type': 'ItemList',
@@ -472,6 +473,16 @@ export default function Projects() {
           flex-direction: column;
           gap: 0.75rem;
           flex-grow: 1;
+        }
+
+        @media (max-width: 480px) {
+          .portfolio-card-info {
+            padding: 1.75rem 1.25rem;
+          }
+          .portfolio-card-title {
+            font-size: 1.3rem;
+            word-break: break-word;
+          }
         }
 
         .portfolio-card-badges {

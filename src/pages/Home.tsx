@@ -16,6 +16,7 @@ import GlowBorderCard from '../components/ui/glow-border-card';
 import FlipTextCycle from '../components/ui/flip-text-cycle';
 import WaveGridBackground from '../components/ui/wave-grid-background';
 import { initScrollReveal } from '../utils/scrollReveal';
+import { SITE_CONFIG } from '../constants/site';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,8 +118,8 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="Websight Works | Web Development, Custom Apps & AI Solutions in Kolhapur" 
-        description="Websight Works is a premier web development company in Kolhapur, Maharashtra. We build high-performance websites, custom web applications, e-commerce stores, and AI solutions."
+        title="Websight Works | Digital Technology Company & Web Solutions" 
+        description="Websight Works is a digital technology company based in Kolhapur, Maharashtra, delivering custom web development, web applications, e-commerce stores, and AI solutions across India and internationally."
         schemas={[
           {
             '@context': 'https://schema.org',
@@ -130,15 +131,17 @@ export default function Home() {
               'item': {
                 '@type': 'Service',
                 'name': s.title,
-                'url': `https://websightworks.com/expertise/${s.id}`,
+                'url': `${SITE_CONFIG.siteUrl}/expertise/${s.id}`,
                 'description': s.homepageDesc,
                 'provider': {
-                  '@id': 'https://websightworks.com/#organization',
+                  '@id': `${SITE_CONFIG.siteUrl}/#organization`,
                 },
-                'areaServed': {
-                  '@type': 'AdministrativeArea',
-                  'name': 'Kolhapur, Maharashtra, India',
-                },
+                'areaServed': [
+                  { '@type': 'City', 'name': 'Kolhapur' },
+                  { '@type': 'State', 'name': 'Maharashtra' },
+                  { '@type': 'Country', 'name': 'India' },
+                  { '@type': 'AdministrativeArea', 'name': 'Worldwide' },
+                ],
               },
             })),
           },
@@ -229,6 +232,9 @@ export default function Home() {
                     displayOverlayContent={true}
                     overlayContent={
                       <div className="service-card-overlay-content">
+                        {(service.id === 'data-analytics' || service.id === 'digital-marketing') && (
+                          <span className="service-card-coming-soon-badge">Coming Soon</span>
+                        )}
                         <div className="service-card-icon-wrapper">
                           {Icon && <Icon size={28} className="service-icon" />}
                         </div>
@@ -349,23 +355,23 @@ export default function Home() {
             <div className="timeline-steps">
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">01</span>
-                <h4 className="step-title">Discover</h4>
-                <p>We understand your business, goals, audience, and requirements before planning the right digital solution.</p>
+                <h4 className="step-title">Understanding</h4>
+                <p>We understand your business, goals, audience, and requirements to define the right digital solution.</p>
               </GlowBorderCard>
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">02</span>
-                <h4 className="step-title">Design</h4>
-                <p>We create clean, modern designs focused on user experience, brand identity, and conversions.</p>
+                <h4 className="step-title">Design &amp; Develop</h4>
+                <p>We design and build a modern, responsive solution focused on performance, usability, and your brand.</p>
               </GlowBorderCard>
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">03</span>
-                <h4 className="step-title">Develop</h4>
-                <p>We build fast, secure, responsive websites and applications using modern technologies.</p>
+                <h4 className="step-title">Review &amp; Feedback</h4>
+                <p>We review the work with you, refine the details, and make improvements based on your feedback.</p>
               </GlowBorderCard>
               <GlowBorderCard className="timeline-step-card">
                 <span className="step-num">04</span>
-                <h4 className="step-title">Launch & Support</h4>
-                <p>After testing everything thoroughly, we deploy your project and provide ongoing support whenever needed.</p>
+                <h4 className="step-title">Launch &amp; Support</h4>
+                <p>After thorough testing, we launch your project and provide ongoing support whenever you need it.</p>
               </GlowBorderCard>
             </div>
           </div>
@@ -586,6 +592,48 @@ export default function Home() {
           box-sizing: border-box;
           z-index: 2;
           background: linear-gradient(to bottom, rgba(5, 5, 5, 0.35) 0%, rgba(5, 5, 5, 0.85) 100%);
+        }
+
+        @media (max-width: 480px) {
+          .service-card-overlay-content {
+            padding: 1.75rem 1.25rem;
+          }
+        }
+
+        .service-card-coming-soon-badge {
+          position: absolute;
+          top: 2rem;
+          right: 2rem;
+          font-size: 0.625rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #ffffff;
+          background: linear-gradient(135deg, #2F80ED 0%, #1551AF 100%);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          padding: 0.32rem 0.75rem;
+          border-radius: 100px;
+          line-height: 1;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 14px rgba(47, 128, 255, 0.35);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+          pointer-events: none;
+          z-index: 3;
+          transition: all 0.3s ease;
+        }
+
+        .service-card-tilt-link:hover .service-card-coming-soon-badge {
+          box-shadow: 0 4px 18px rgba(47, 128, 255, 0.6);
+          border-color: rgba(255, 255, 255, 0.45);
+          transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+          .service-card-coming-soon-badge {
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 0.5625rem;
+            padding: 0.26rem 0.65rem;
+          }
         }
 
         .service-card-icon-wrapper {
@@ -861,6 +909,14 @@ export default function Home() {
           }
         }
 
+        @media (max-width: 480px) {
+          .project-feature-title {
+            font-size: 1.65rem;
+            word-break: break-word;
+            overflow-wrap: break-word;
+          }
+        }
+
         .project-feature-badges {
           display: flex;
           align-items: center;
@@ -973,6 +1029,19 @@ export default function Home() {
             grid-template-columns: 1fr;
             padding-left: 3rem;
             gap: 2.5rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .timeline-line {
+            left: 14px;
+          }
+          .timeline-steps {
+            padding-left: 2rem;
+            gap: 1.75rem;
+          }
+          .timeline-step-card .glow-card-inner {
+            padding: 1.75rem 1.25rem;
           }
         }
 

@@ -5,6 +5,7 @@ import SEO from '../components/SEO';
 import ShinyText from '../components/ShinyText';
 import { Particles } from '../components/Particles';
 import { initScrollReveal } from '../utils/scrollReveal';
+import { SITE_CONFIG } from '../constants/site';
 
 interface FormFields {
   name: string;
@@ -44,13 +45,13 @@ export default function Contact() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const dropdownOptions = [
-    'Website Development',
     'E-Commerce Stores',
     'Custom Web Applications',
     'AI Powered Solutions',
+    'Website Development',
+    'UI/UX Design',
     'Data Analytics',
-    'Social Media Marketing',
-    'UI/UX Design'
+    'Social Media Marketing'
   ];
 
   // Click outside to close custom dropdown
@@ -192,17 +193,17 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Contact Us | Websight Works Kolhapur" 
-        description="Get in touch with Websight Works in Kolhapur, Maharashtra. Discuss your website development, e-commerce, custom web application, or AI solution project."
+        title="Contact Us | Websight Works - Digital Technology Studio" 
+        description="Connect with Websight Works in Kolhapur, Maharashtra. Discuss custom website development, web applications, and AI-powered solutions with our team."
         schemas={[
           {
             '@context': 'https://schema.org',
             '@type': 'ContactPage',
             'name': 'Contact Websight Works',
-            'url': 'https://websightworks.com/contact',
+            'url': `${SITE_CONFIG.siteUrl}/contact`,
             'description': 'Contact the Websight Works team in Kolhapur, Maharashtra for website development and digital solutions.',
             'mainEntity': {
-              '@id': 'https://websightworks.com/#localbusiness',
+              '@id': `${SITE_CONFIG.siteUrl}/#localbusiness`,
             },
           },
         ]}
@@ -570,6 +571,11 @@ export default function Contact() {
           .contact-form {
             padding: 1.75rem 1.25rem;
           }
+          .contact-form .form-input,
+          .contact-form .form-textarea,
+          .custom-dropdown-trigger {
+            font-size: 16px !important;
+          }
         }
 
         .input-error {
@@ -862,6 +868,8 @@ export default function Contact() {
           font-weight: 500;
           color: var(--text-primary);
           transition: color var(--transition-fast);
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
 
         .copy-btn {

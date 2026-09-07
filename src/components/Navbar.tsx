@@ -148,6 +148,9 @@ export default function Navbar() {
                           className="mega-service-card"
                           onClick={() => setIsMegaOpen(false)}
                         >
+                          {(service.id === 'data-analytics' || service.id === 'digital-marketing') && (
+                            <span className="mega-coming-soon-badge">Coming Soon</span>
+                          )}
                           <div className="service-icon-wrapper">
                             {Icon && <Icon size={17} className="service-icon" />}
                           </div>
@@ -235,7 +238,7 @@ export default function Navbar() {
                       className={`mobile-sub-link ${location.pathname === `/expertise/${service.id}` ? 'active' : ''}`}
                       onClick={() => setIsMobileOpen(false)}
                     >
-                      {service.title}
+                      <span>{service.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -518,6 +521,7 @@ export default function Navbar() {
         }
 
         .mega-service-card {
+          position: relative;
           display: flex;
           gap: 0.85rem;
           padding: 0.9rem 1.1rem;
@@ -526,6 +530,31 @@ export default function Navbar() {
           border: 1px solid rgba(255, 255, 255, 0.02);
           transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
           text-decoration: none;
+        }
+
+        .mega-coming-soon-badge {
+          position: absolute;
+          top: 0.75rem;
+          right: 0.85rem;
+          font-size: 0.5625rem;
+          font-weight: 800;
+          letter-spacing: 0.09em;
+          text-transform: uppercase;
+          color: #ffffff;
+          background: linear-gradient(135deg, #2F80ED 0%, #1551AF 100%);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          padding: 0.22rem 0.55rem;
+          border-radius: 100px;
+          line-height: 1;
+          pointer-events: none;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 10px rgba(47, 128, 255, 0.3);
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+          transition: all 0.3s ease;
+        }
+
+        .mega-service-card:hover .mega-coming-soon-badge {
+          box-shadow: 0 3px 12px rgba(47, 128, 255, 0.55);
+          border-color: rgba(255, 255, 255, 0.45);
         }
 
         .mega-service-card:hover {
@@ -672,7 +701,7 @@ export default function Navbar() {
           top: 0;
           right: -100%;
           width: 320px;
-          max-width: 100vw;
+          max-width: min(320px, 88vw);
           height: 100vh;
           height: 100dvh;
           z-index: 2000;
@@ -686,6 +715,14 @@ export default function Navbar() {
           border-bottom: none;
           border-right: none;
           overflow-y: auto;
+          overflow-x: hidden;
+          overscroll-behavior: contain;
+        }
+
+        @media (max-width: 360px) {
+          .mobile-drawer {
+            padding: calc(1.5rem + env(safe-area-inset-top, 0px)) 1.25rem calc(1.5rem + env(safe-area-inset-bottom, 0px)) 1.25rem;
+          }
         }
 
         .mobile-drawer.open {
@@ -777,6 +814,9 @@ export default function Navbar() {
         }
 
         .mobile-sub-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           font-size: 0.875rem;
           color: var(--text-secondary);
           transition: color 0.3s ease;

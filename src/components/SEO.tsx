@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { SITE_CONFIG } from '../constants/site';
 
 interface SEOProps {
   title: string;
@@ -13,21 +14,21 @@ export default function SEO({
   title,
   description,
   ogType = 'website',
-  ogImage = 'https://websightworks.com/WW_3.png',
+  ogImage = SITE_CONFIG.defaultOgImage,
   schemas = [],
 }: SEOProps) {
   const location = useLocation();
-  const canonicalUrl = `https://websightworks.com${location.pathname === '/' ? '' : location.pathname}`;
+  const canonicalUrl = `${SITE_CONFIG.siteUrl}${location.pathname === '/' ? '' : location.pathname}`;
 
   useEffect(() => {
     // 1. Format Document Title
-    const formattedTitle = title.includes('Websight Works')
+    const formattedTitle = title.includes(SITE_CONFIG.name)
       ? title
-      : `${title} | Websight Works`;
+      : `${title} | ${SITE_CONFIG.name}`;
     document.title = formattedTitle;
 
     // Ensure favicon metadata
-    let faviconLink = document.querySelector('link[rel="icon"]');
+    const faviconLink = document.querySelector('link[rel="icon"]');
     if (faviconLink) {
       faviconLink.setAttribute('href', '/WW_3.png');
       faviconLink.setAttribute('type', 'image/png');
@@ -51,14 +52,26 @@ export default function SEO({
       'content',
       'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
     );
-    getOrCreateMeta('name', 'author').setAttribute('content', 'Websight Works');
-    getOrCreateMeta('name', 'publisher').setAttribute('content', 'Websight Works');
+    getOrCreateMeta('name', 'author').setAttribute('content', SITE_CONFIG.name);
+    getOrCreateMeta('name', 'publisher').setAttribute('content', SITE_CONFIG.name);
 
-    // Geo Meta Tags for Local Search Signals (Kolhapur, Maharashtra, India)
+    // Geo Meta Tags for Verified Local Search Signals (Kolhapur, Maharashtra, India)
     getOrCreateMeta('name', 'geo.region').setAttribute('content', 'IN-MH');
     getOrCreateMeta('name', 'geo.placename').setAttribute('content', 'Kolhapur');
-    getOrCreateMeta('name', 'geo.position').setAttribute('content', '16.7050;74.2433');
-    getOrCreateMeta('name', 'ICBM').setAttribute('content', '16.7050, 74.2433');
+    getOrCreateMeta(
+      'name',
+      'geo.position',
+    ).setAttribute(
+      'content',
+      `${SITE_CONFIG.contact.geo.latitude};${SITE_CONFIG.contact.geo.longitude}`
+    );
+    getOrCreateMeta(
+      'name',
+      'ICBM',
+    ).setAttribute(
+      'content',
+      `${SITE_CONFIG.contact.geo.latitude}, ${SITE_CONFIG.contact.geo.longitude}`
+    );
 
     // 3. Open Graph Social Graph Metadata
     getOrCreateMeta('property', 'og:title').setAttribute('content', formattedTitle);
@@ -66,7 +79,7 @@ export default function SEO({
     getOrCreateMeta('property', 'og:url').setAttribute('content', canonicalUrl);
     getOrCreateMeta('property', 'og:type').setAttribute('content', ogType);
     getOrCreateMeta('property', 'og:image').setAttribute('content', ogImage);
-    getOrCreateMeta('property', 'og:site_name').setAttribute('content', 'Websight Works');
+    getOrCreateMeta('property', 'og:site_name').setAttribute('content', SITE_CONFIG.name);
     getOrCreateMeta('property', 'og:locale').setAttribute('content', 'en_US');
 
     // 4. Twitter Card Metadata
@@ -74,8 +87,6 @@ export default function SEO({
     getOrCreateMeta('name', 'twitter:title').setAttribute('content', formattedTitle);
     getOrCreateMeta('name', 'twitter:description').setAttribute('content', description);
     getOrCreateMeta('name', 'twitter:image').setAttribute('content', ogImage);
-    getOrCreateMeta('name', 'twitter:site').setAttribute('content', '@websightworks');
-    getOrCreateMeta('name', 'twitter:creator').setAttribute('content', '@websightworks');
 
     // 5. Canonical URL Link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
@@ -96,51 +107,46 @@ export default function SEO({
       {
         '@context': 'https://schema.org',
         '@type': ['Organization', 'SoftwareCompany'],
-        '@id': 'https://websightworks.com/#organization',
-        'name': 'Websight Works',
-        'legalName': 'Websight Works',
-        'url': 'https://websightworks.com',
-        'logo': 'https://websightworks.com/WW_3.png',
+        '@id': `${SITE_CONFIG.siteUrl}/#organization`,
+        'name': SITE_CONFIG.name,
+        'legalName': SITE_CONFIG.legalName,
+        'url': SITE_CONFIG.siteUrl,
+        'logo': `${SITE_CONFIG.siteUrl}/WW_3.png`,
         'image': ogImage,
-        'email': 'contact@websightworks.com',
-        'telephone': '+91-96373-72210',
-        'sameAs': [
-          'https://www.instagram.com/websightworks/',
-          'https://www.linkedin.com/company/websight-works/',
-          'https://twitter.com/websightworks',
-          'https://github.com/websightworks',
-        ],
+        'email': SITE_CONFIG.contact.email,
+        'telephone': SITE_CONFIG.contact.telephoneLink,
+        'sameAs': SITE_CONFIG.socials,
         'address': {
           '@type': 'PostalAddress',
-          'streetAddress': 'Vimal Vihar, Rajarampuri 3rd Lane',
-          'addressLocality': 'Kolhapur',
-          'addressRegion': 'Maharashtra',
-          'postalCode': '416008',
-          'addressCountry': 'IN',
+          'streetAddress': SITE_CONFIG.contact.address.streetAddress,
+          'addressLocality': SITE_CONFIG.contact.address.addressLocality,
+          'addressRegion': SITE_CONFIG.contact.address.addressRegion,
+          'postalCode': SITE_CONFIG.contact.address.postalCode,
+          'addressCountry': SITE_CONFIG.contact.address.addressCountry,
         },
       },
       {
         '@context': 'https://schema.org',
         '@type': ['LocalBusiness', 'ProfessionalService', 'WebDesign'],
-        '@id': 'https://websightworks.com/#localbusiness',
-        'name': 'Websight Works',
+        '@id': `${SITE_CONFIG.siteUrl}/#localbusiness`,
+        'name': SITE_CONFIG.name,
         'image': ogImage,
-        'telephone': '+91-96373-72210',
-        'email': 'contact@websightworks.com',
-        'url': 'https://websightworks.com',
+        'telephone': SITE_CONFIG.contact.telephoneLink,
+        'email': SITE_CONFIG.contact.email,
+        'url': SITE_CONFIG.siteUrl,
         'priceRange': '$$$',
         'address': {
           '@type': 'PostalAddress',
-          'streetAddress': 'Vimal Vihar, Rajarampuri 3rd Lane',
-          'addressLocality': 'Kolhapur',
-          'addressRegion': 'Maharashtra',
-          'postalCode': '416008',
-          'addressCountry': 'IN',
+          'streetAddress': SITE_CONFIG.contact.address.streetAddress,
+          'addressLocality': SITE_CONFIG.contact.address.addressLocality,
+          'addressRegion': SITE_CONFIG.contact.address.addressRegion,
+          'postalCode': SITE_CONFIG.contact.address.postalCode,
+          'addressCountry': SITE_CONFIG.contact.address.addressCountry,
         },
         'geo': {
           '@type': 'GeoCoordinates',
-          'latitude': 16.7050,
-          'longitude': 74.2433,
+          'latitude': SITE_CONFIG.contact.geo.latitude,
+          'longitude': SITE_CONFIG.contact.geo.longitude,
         },
         'areaServed': [
           {
@@ -155,6 +161,10 @@ export default function SEO({
             '@type': 'Country',
             'name': 'India',
           },
+          {
+            '@type': 'AdministrativeArea',
+            'name': 'Worldwide',
+          },
         ],
         'openingHoursSpecification': {
           '@type': 'OpeningHoursSpecification',
@@ -166,11 +176,12 @@ export default function SEO({
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        '@id': 'https://websightworks.com/#website',
-        'url': 'https://websightworks.com',
-        'name': 'Websight Works',
+        '@id': `${SITE_CONFIG.siteUrl}/#website`,
+        'url': SITE_CONFIG.siteUrl,
+        'name': SITE_CONFIG.name,
+        'description': SITE_CONFIG.positioning,
         'publisher': {
-          '@id': 'https://websightworks.com/#organization',
+          '@id': `${SITE_CONFIG.siteUrl}/#organization`,
         },
       },
       {
@@ -189,7 +200,7 @@ export default function SEO({
                 '@type': 'ListItem',
                 'position': index + 2,
                 'name': formattedName,
-                'item': `https://websightworks.com${path}`,
+                'item': `${SITE_CONFIG.siteUrl}${path}`,
               });
               return acc;
             },
@@ -198,7 +209,7 @@ export default function SEO({
                 '@type': 'ListItem',
                 'position': 1,
                 'name': 'Home',
-                'item': 'https://websightworks.com/',
+                'item': `${SITE_CONFIG.siteUrl}/`,
               },
             ]
           ),

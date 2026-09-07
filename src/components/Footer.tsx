@@ -52,13 +52,13 @@ function InstagramIcon({ size = 18, ...props }: { size?: number; [key: string]: 
 }
 
 const expertiseItems = [
-  { title: 'Website Development', path: '/expertise/website-development', Icon: Globe },
   { title: 'E-Commerce Stores', path: '/expertise/e-commerce', Icon: ShoppingBag },
   { title: 'Custom Web Applications', path: '/expertise/custom-apps', Icon: Cpu },
-  { title: 'Social Media Marketing', path: '/expertise/digital-marketing', Icon: Share2 },
   { title: 'AI-Powered Solutions', path: '/expertise/ai-solutions', Icon: Sparkles },
-  { title: 'Data Analytics', path: '/expertise/data-analytics', Icon: BarChart2 },
+  { title: 'Website Development', path: '/expertise/website-development', Icon: Globe },
   { title: 'UI/UX Design', path: '/expertise/ui-ux-design', Icon: Layout },
+  { title: 'Data Analytics', path: '/expertise/data-analytics', Icon: BarChart2 },
+  { title: 'Social Media Marketing', path: '/expertise/digital-marketing', Icon: Share2 },
 ];
 
 export default function Footer() {

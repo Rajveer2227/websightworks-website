@@ -599,7 +599,7 @@ export default function InteractiveBook({
 
                         <div className="cover-content">
                             <span className="cover-subtitle-top">Websight Works</span>
-                            <h1 className="cover-title">{bookTitle}</h1>
+                            <h2 className="cover-title">{bookTitle}</h2>
                             <p className="cover-author">{bookAuthor}</p>
                         </div>
 

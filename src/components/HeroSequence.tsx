@@ -15,16 +15,17 @@ interface SceneConfig {
   start: number; // Start progress (0.0 to 1.0)
   end: number;   // End progress (0.0 to 1.0)
   isLogo?: boolean;
+  isComingSoon?: boolean;
 }
 
 const scenes: SceneConfig[] = [
-  { label: 'SERVICE 01', text: 'WEBSITE\nDEVELOPMENT', subtext: 'Building fast, responsive, and conversion-focused websites.', start: 0.0, end: 0.16 },
-  { label: 'SERVICE 02', text: 'E-COMMERCE\nSTORES', subtext: 'Creating seamless online shopping experiences that drive sales.', start: 0.19, end: 0.30 },
-  { label: 'SERVICE 03', text: 'DIGITAL\nMARKETING', subtext: 'Growing your brand through strategic digital marketing campaigns.', start: 0.33, end: 0.44 },
-  { label: 'SERVICE 04', text: 'CUSTOM\nWEB APPS', subtext: 'Developing scalable web applications tailored to your business.', start: 0.47, end: 0.58 },
-  { label: 'SERVICE 05', text: 'AI-POWERED\nSOLUTIONS', subtext: 'Automating workflows with intelligent AI-driven solutions.', start: 0.61, end: 0.72 },
-  { label: 'SERVICE 06', text: 'DATA\nANALYTICS', subtext: 'Transforming data into actionable business intelligence.', start: 0.75, end: 0.86 },
-  { label: 'SERVICE 07', text: 'UI / UX\nDESIGN', subtext: 'Designing intuitive interfaces with exceptional user experiences.', start: 0.89, end: 0.94 },
+  { label: 'SERVICE 01', text: 'E-COMMERCE\nSTORES', subtext: 'Creating seamless online shopping experiences that drive sales.', start: 0.0, end: 0.16 },
+  { label: 'SERVICE 02', text: 'CUSTOM\nWEB APPS', subtext: 'Developing scalable web applications tailored to your business.', start: 0.19, end: 0.30 },
+  { label: 'SERVICE 03', text: 'AI-POWERED\nSOLUTIONS', subtext: 'Automating workflows with intelligent AI-driven solutions.', start: 0.33, end: 0.44 },
+  { label: 'SERVICE 04', text: 'WEBSITE\nDEVELOPMENT', subtext: 'Building fast, responsive, and conversion-focused websites.', start: 0.47, end: 0.58 },
+  { label: 'SERVICE 05', text: 'UI / UX\nDESIGN', subtext: 'Designing intuitive interfaces with exceptional user experiences.', start: 0.61, end: 0.72 },
+  { label: 'SERVICE 06', text: 'DATA\nANALYTICS', subtext: 'Transforming data into actionable business intelligence.', start: 0.75, end: 0.86, isComingSoon: true },
+  { label: 'SERVICE 07', text: 'SOCIAL MEDIA\nMARKETING', subtext: 'Growing your brand through strategic digital marketing campaigns.', start: 0.89, end: 0.94, isComingSoon: true },
   { text: 'WEBSIGHT WORKS', subtext: 'The Destination. Premium Digital Product Studio.', start: 0.95, end: 1.0, isLogo: true }
 ];
 
@@ -37,7 +38,6 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textRefs = useRef<HTMLDivElement[]>([]);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  const fixedLogoRef = useRef<HTMLDivElement>(null);
   
   const framesRef = useRef<HTMLImageElement[]>(images);
   
@@ -133,8 +133,8 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
       }
     );
 
-    // Fade in scroll indicator and fixed bottom-right logo on entrance
-    gsap.fromTo([scrollIndicatorRef.current, fixedLogoRef.current],
+    // Fade in scroll indicator on entrance
+    gsap.fromTo(scrollIndicatorRef.current,
       { opacity: 0, y: 10 },
       {
         opacity: 1,
@@ -195,7 +195,13 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      if (force || width !== lastWidth.current || Math.abs(height - lastHeight.current) > 10) {
+      // On mobile / touch screens, toolbar collapse during scroll changes height but NOT width.
+      // We must avoid reallocating the canvas bitmap buffer on mobile scroll to prevent frame drops and flickering.
+      const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window);
+      const isWidthChanged = width !== lastWidth.current;
+      const isSignificantHeightChange = Math.abs(height - lastHeight.current) > 10;
+
+      if (force || isWidthChanged || (!isMobile && isSignificantHeightChange)) {
         lastWidth.current = width;
         lastHeight.current = height;
 
@@ -208,32 +214,12 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           canvas.style.height = '100%';
           forceRedraw.current = true;
         }
-
-        // Adjust watermark logo anchor offset on ultra-wide & 4K displays (>1920px)
-        // to maintain visual lock with 3D canvas aspect cover scaling
-        if (fixedLogoRef.current) {
-          if (width > 1920) {
-            const scale = Math.max(width / 1920, height / 1080);
-            const rightRem = 8.5 * scale;
-            const aspect = width / height;
-            let bottomRem = 3.5 * scale;
-            if (aspect > (1920 / 1080)) {
-              const dh = 1080 * scale;
-              const cropY = (dh - height) / 2;
-              bottomRem = Math.max(3.5, (56.0 * scale - cropY) / 16);
-            }
-            fixedLogoRef.current.style.right = `${rightRem}rem`;
-            fixedLogoRef.current.style.bottom = `${bottomRem}rem`;
-          } else {
-            fixedLogoRef.current.style.right = '';
-            fixedLogoRef.current.style.bottom = '';
-          }
-        }
       }
     };
 
     const handleResize = () => resizeCanvas(false);
     window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
     resizeCanvas(true);
 
     // Trigger frame 0 draw synchronously
@@ -301,6 +287,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
       cancelAnimationFrame(rafId);
       if (lenis) {
         lenis.off('scroll', syncScroll);
@@ -346,14 +333,29 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
               </div>
             ) : (
               <div className="editorial-scene-wrapper">
+                {scene.isComingSoon && (
+                  <div className="scene-ribbon-container">
+                    <span className="scene-ribbon">COMING SOON</span>
+                  </div>
+                )}
                 <span className="scene-label">{scene.label}</span>
-                <h2 className="scene-title serif-heading">
-                  {scene.text.split('\n').map((line, lIdx) => (
-                    <span key={lIdx} style={{ display: 'block' }}>
-                      {line}
-                    </span>
-                  ))}
-                </h2>
+                {idx === 0 ? (
+                  <h1 className="scene-title serif-heading">
+                    {scene.text.split('\n').map((line, lIdx) => (
+                      <span key={lIdx} style={{ display: 'block' }}>
+                        {line}
+                      </span>
+                    ))}
+                  </h1>
+                ) : (
+                  <h2 className="scene-title serif-heading">
+                    {scene.text.split('\n').map((line, lIdx) => (
+                      <span key={lIdx} style={{ display: 'block' }}>
+                        {line}
+                      </span>
+                    ))}
+                  </h2>
+                )}
                 <p className="scene-subtitle">{scene.subtext}</p>
               </div>
             )}
@@ -371,105 +373,7 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
         </div>
       </div>
 
-      {/* Fixed Bottom-Right Logo covering the grid star icon with dark film overlay */}
-      <div ref={fixedLogoRef} className="hero-fixed-logo-wrapper" style={{ opacity: 0 }}>
-        <div className="hero-fixed-logo-film">
-          <img 
-            src="/WW_3.png" 
-            alt="Websight Works Symbol" 
-            className="hero-fixed-logo-img"
-          />
-        </div>
-      </div>
-
       <style>{`
-        .hero-fixed-logo-wrapper {
-          position: absolute;
-          bottom: 2.8rem;
-          right: 8.5rem;
-          transform: translate(50%, 50%);
-          z-index: 10;
-          pointer-events: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .hero-fixed-logo-film {
-          position: relative;
-          width: 72px;
-          height: 72px;
-          border-radius: 14px;
-          background: #080808;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95);
-        }
-
-        /* Dark film overlay layer for subtle watermark aesthetic */
-        .hero-fixed-logo-film::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: rgba(5, 5, 5, 0.45);
-          pointer-events: none;
-          border-radius: 14px;
-        }
-
-        .hero-fixed-logo-img {
-          width: 58px;
-          height: 58px;
-          object-fit: contain;
-          border-radius: 12px;
-          opacity: 0.5;
-          filter: brightness(0.65) contrast(1.1);
-        }
-
-        @media (min-width: 1600px) {
-          .hero-fixed-logo-wrapper {
-            bottom: 3.5rem;
-            right: 8.5rem;
-          }
-        }
-
-        @media (max-width: 1400px) {
-          .hero-fixed-logo-wrapper {
-            bottom: 2.8rem;
-            right: 8.5rem;
-          }
-        }
-
-        @media (max-width: 1024px) {
-          .hero-fixed-logo-wrapper {
-            bottom: 3.2rem;
-            right: 5.8rem;
-          }
-          .hero-fixed-logo-film {
-            width: 58px;
-            height: 58px;
-          }
-          .hero-fixed-logo-img {
-            width: 46px;
-            height: 46px;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-fixed-logo-wrapper {
-            bottom: 2.8rem;
-            right: 4.4rem;
-          }
-          .hero-fixed-logo-film {
-            width: 48px;
-            height: 48px;
-          }
-          .hero-fixed-logo-img {
-            width: 38px;
-            height: 38px;
-          }
-        }
 
         .hero-sequence-container {
           position: relative;
@@ -527,12 +431,14 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           max-width: 800px;
           text-align: center;
           padding: 0 var(--container-padding);
-          transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          transition: opacity 0.3s ease;
           will-change: transform, opacity;
           pointer-events: auto; /* Enable clicking elements inside overlay */
         }
 
         .editorial-scene-wrapper {
+          position: relative;
+          overflow: hidden;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -550,6 +456,39 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           box-shadow: 
             0 25px 50px -12px rgba(0, 0, 0, 0.8),
             inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .scene-ribbon-container {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 155px;
+          height: 155px;
+          overflow: hidden;
+          pointer-events: none;
+          z-index: 10;
+        }
+
+        .scene-ribbon {
+          position: absolute;
+          top: 36px;
+          right: -42px;
+          width: 185px;
+          transform: rotate(45deg);
+          background: linear-gradient(135deg, #2F80ED 0%, #1551AF 100%);
+          color: #ffffff;
+          font-family: inherit;
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+          text-align: center;
+          padding: 7.5px 0;
+          text-transform: uppercase;
+          line-height: 1;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.65), 0 0 20px rgba(47, 128, 255, 0.5);
+          border-top: 1px solid rgba(255, 255, 255, 0.45);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
         }
 
         .scene-label {
@@ -578,6 +517,8 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           color: #ffffff;
           margin-bottom: 1.5rem;
           text-transform: uppercase;
+          overflow-wrap: break-word;
+          word-break: break-word;
         }
 
         .scene-subtitle {
@@ -629,6 +570,18 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
             border-radius: 12px;
             max-width: 90vw;
           }
+          .scene-ribbon-container {
+            width: 125px;
+            height: 125px;
+          }
+          .scene-ribbon {
+            top: 28px;
+            right: -36px;
+            width: 155px;
+            font-size: 0.6rem;
+            padding: 6px 0;
+            letter-spacing: 0.12em;
+          }
           .scene-title {
             font-size: 2.5rem;
           }
@@ -642,12 +595,51 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           .logo-subtitle {
             font-size: 0.9375rem;
           }
+          .logo-cta-container {
+            margin-top: 38rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .editorial-scene-wrapper {
+            padding: 1.85rem 1.25rem;
+            max-width: 92vw;
+          }
+          .scene-title {
+            font-size: 2rem;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+          }
+          .scene-subtitle {
+            font-size: 0.875rem;
+            line-height: 1.5;
+          }
+          .logo-cta-container {
+            margin-top: 36rem;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .editorial-scene-wrapper {
+            padding: 1.6rem 1rem;
+            max-width: 94vw;
+          }
+          .scene-title {
+            font-size: 1.7rem;
+            line-height: 1.15;
+          }
+          .scene-subtitle {
+            font-size: 0.8125rem;
+          }
+          .logo-cta-container {
+            margin-top: 31rem;
+          }
         }
 
         /* Scroll Indicator Styling */
         .hero-scroll-indicator {
           position: absolute;
-          bottom: 2rem;
+          bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
           left: 50%;
           transform: translateX(-50%);
           z-index: 3;
@@ -666,6 +658,13 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
           padding: 0.625rem 1.25rem;
           border-radius: 100px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        @media (max-width: 480px) {
+          .hero-scroll-indicator {
+            bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+            padding: 0.5rem 1rem;
+          }
         }
 
         .scroll-indicator-text {

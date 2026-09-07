@@ -51,7 +51,19 @@ export default function Layout({ children }: LayoutProps) {
     };
     rafId = requestAnimationFrame(updateRaf);
 
+    // Debounced orientation change handler to recalculate layout and ScrollTrigger
+    let orientationTimeout: ReturnType<typeof setTimeout>;
+    const handleOrientationChange = () => {
+      clearTimeout(orientationTimeout);
+      orientationTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 300);
+    };
+    window.addEventListener('orientationchange', handleOrientationChange);
+
     return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      clearTimeout(orientationTimeout);
       lenis.off('scroll', updateScrollTrigger);
       lenis.destroy();
       cancelAnimationFrame(rafId);
@@ -108,6 +120,10 @@ export default function Layout({ children }: LayoutProps) {
       <style>{`
         .layout-root {
           min-height: 100vh;
+          min-height: 100dvh;
+          width: 100%;
+          max-width: 100vw;
+          overflow-x: clip;
           display: flex;
           flex-direction: column;
         }

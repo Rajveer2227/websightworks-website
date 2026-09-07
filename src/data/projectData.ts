@@ -73,16 +73,6 @@ export const projects: ProjectDetails[] = [
     projectUrl: 'https://grovelprecicomp.com/'
   },
   {
-    id: 'sai-shooting-sports-equipments',
-    title: 'Sai Shooting Sports Equipments',
-    category: 'Sports Equipment',
-    technology: 'WordPress',
-    filterCategory: 'website',
-    shortDesc: 'Professional website showcasing premium shooting sports equipment and product catalog.',
-    imageUrl: '/images/projects/sai-shooting-sports-equipments.png',
-    projectUrl: 'https://saishootingsportsequipments.in/'
-  },
-  {
     id: 'excel-computers',
     title: 'Excel Computers',
     category: 'Education & Training',
