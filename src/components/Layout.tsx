@@ -61,8 +61,17 @@ export default function Layout({ children }: LayoutProps) {
     };
     window.addEventListener('orientationchange', handleOrientationChange);
 
+    // BFCache (Back-Forward Cache) pageshow handler for Safari/iOS
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        ScrollTrigger.refresh();
+      }
+    };
+    window.addEventListener('pageshow', handlePageShow);
+
     return () => {
       window.removeEventListener('orientationchange', handleOrientationChange);
+      window.removeEventListener('pageshow', handlePageShow);
       clearTimeout(orientationTimeout);
       lenis.off('scroll', updateScrollTrigger);
       lenis.destroy();

@@ -17,6 +17,7 @@ import FlipTextCycle from '../components/ui/flip-text-cycle';
 import WaveGridBackground from '../components/ui/wave-grid-background';
 import { initScrollReveal } from '../utils/scrollReveal';
 import { SITE_CONFIG } from '../constants/site';
+import { heroFrameCache } from '../utils/heroFrameCache';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,8 +32,11 @@ const iconMap: Record<string, any> = {
 };
 
 export default function Home() {
-  const [preloadedImages, setPreloadedImages] = useState<HTMLImageElement[] | null>(null);
-  const [exitComplete, setExitComplete] = useState(false);
+  const isAlreadyLoaded = heroFrameCache.isInitialBatchReady() && !!(window as any).preloaderComplete;
+  const [preloadedImages, setPreloadedImages] = useState<HTMLImageElement[] | null>(() => {
+    return isAlreadyLoaded ? heroFrameCache.getFrames() : null;
+  });
+  const [exitComplete, setExitComplete] = useState<boolean>(() => isAlreadyLoaded);
   const aboutRef = useRef<HTMLDivElement>(null);
   const processRef = useRef<HTMLDivElement>(null);
 

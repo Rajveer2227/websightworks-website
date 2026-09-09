@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { heroFrameCache } from '../utils/heroFrameCache';
 
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -52,11 +53,15 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
   const lastWidth = useRef<number>(window.innerWidth);
   const lastHeight = useRef<number>(window.innerHeight);
 
-  // Sync framesRef when images prop changes
+  // Sync framesRef when images prop changes and subscribe to background frame streaming
   useEffect(() => {
     framesRef.current = images;
-    // Force redraw first frame immediately
     forceRedraw.current = true;
+
+    const unsubscribe = heroFrameCache.subscribeFrameLoaded(() => {
+      forceRedraw.current = true;
+    });
+    return unsubscribe;
   }, [images]);
 
   // Aspect-Ratio Cover drawing method
@@ -73,8 +78,16 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
     const frame1 = Math.max(0, Math.min(intFrame, total - 1));
     const frame2 = Math.max(0, Math.min(intFrame + 1, total - 1));
 
-    const img1 = framesRef.current[frame1];
-    const img2 = framesRef.current[frame2];
+    let img1 = framesRef.current[frame1];
+    let img2 = framesRef.current[frame2];
+
+    // Fallback gracefully to nearest loaded frame if current target is still loading in background stream
+    if (!img1 || !img1.naturalWidth) {
+      img1 = heroFrameCache.getClosestLoadedFrame(frame1) || img1;
+    }
+    if (!img2 || !img2.naturalWidth) {
+      img2 = heroFrameCache.getClosestLoadedFrame(frame2) || img2;
+    }
 
     if (img1 && img1.naturalWidth) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -111,15 +124,6 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
     const totalFrames = images.length;
     const scrollTravelPerFrame = 10; // 10px scroll distance per frame
     const totalScrollDistance = totalFrames * scrollTravelPerFrame;
-
-    // Bind Lenis updates to ScrollTrigger
-    const lenis = (window as any).lenis;
-    const syncScroll = () => {
-      ScrollTrigger.update();
-    };
-    if (lenis) {
-      lenis.on('scroll', syncScroll);
-    }
 
     // Dynamic scale-down and fade-in reveal on launch
     gsap.fromTo([canvasRef.current, '.canvas-vignette'],
@@ -289,15 +293,18 @@ export default function HeroSequence({ images }: HeroSequenceProps) {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleResize);
       cancelAnimationFrame(rafId);
-      if (lenis) {
-        lenis.off('scroll', syncScroll);
-      }
       ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.vars.trigger === containerRef.current) {
           trigger.kill(true);
         }
       });
       tl.kill();
+      // Free canvas bitmap buffer from WebKit GPU / IOSurface memory
+      const canvas = canvasRef.current;
+      if (canvas) {
+        canvas.width = 0;
+        canvas.height = 0;
+      }
     };
   }, [images]);
 

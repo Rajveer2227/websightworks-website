@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { heroFrameCache } from '../utils/heroFrameCache';
 
 interface PreloaderProps {
   onPreloadComplete: (images: HTMLImageElement[]) => void;
@@ -19,9 +20,6 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
     onPreloadCompleteRef.current = onPreloadComplete;
     onExitCompleteRef.current = onExitComplete;
   }, [onPreloadComplete, onExitComplete]);
-
-  // Helper to format frame numbers (e.g. 1 -> "001")
-  const pad = (num: number) => String(num).padStart(3, '0');
 
   useEffect(() => {
     let isMounted = true;
@@ -70,103 +68,20 @@ export const Preloader: React.FC<PreloaderProps> = ({ onPreloadComplete, onExitC
       1.1
     );
 
-    // Dynamic Frame Probing & Loading
-    const checkImageExists = (url: string): Promise<boolean> => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = url;
-      });
-    };
-
-    const probeFrameCount = async (): Promise<number> => {
-      const stride = 50;
-      let rangeStart = 1;
-      let limit = 1000;
-      let currentProbe = stride;
-      let foundLimit = false;
-
-      while (currentProbe <= limit && !foundLimit) {
-        const url = `/frames/ezgif-frame-${pad(currentProbe)}_result.webp`;
-        try {
-          const exists = await checkImageExists(url);
-          if (exists) {
-            rangeStart = currentProbe;
-            currentProbe += stride;
-          } else {
-            foundLimit = true;
-          }
-        } catch {
-          foundLimit = true;
-        }
-      }
-
-      // Check remaining range in parallel
-      const scanPromises: Promise<{ index: number; exists: boolean }>[] = [];
-      const scanEnd = Math.min(currentProbe, limit);
-
-      for (let i = rangeStart; i <= scanEnd; i++) {
-        const url = `/frames/ezgif-frame-${pad(i)}_result.webp`;
-        scanPromises.push(
-          checkImageExists(url).then(exists => ({ index: i, exists }))
-        );
-      }
-
-      const scanResults = await Promise.all(scanPromises);
-      const validFrames = scanResults
-        .filter(r => r.exists)
-        .map(r => r.index);
-
-      if (validFrames.length === 0) return 0;
-      return Math.max(...validFrames);
-    };
-
     const loadAndPreDecode = async () => {
       try {
-        const count = await probeFrameCount();
-        if (count === 0) {
-          throw new Error("No frame assets detected in /frames/ path.");
-        }
-
         if (!isMounted) return;
         setStatusText("INITIALIZING DIGITAL EXPERIENCE");
 
-        let loadedCount = 0;
-
-        // Parallel download and pre-decode setup
-        const promises = Array.from({ length: count }, (_, i) => {
-          const index = i + 1;
-          const url = `/frames/ezgif-frame-${pad(index)}_result.webp`;
-          return new Promise<HTMLImageElement>((resolve) => {
-            const img = new Image();
-            img.onload = async () => {
-              try {
-                await img.decode();
-                if (isMounted) {
-                  loadedCount++;
-                  setProgress(Math.floor((loadedCount / count) * 100));
-                }
-                resolve(img);
-              } catch {
-                if (isMounted) {
-                  loadedCount++;
-                  setProgress(Math.floor((loadedCount / count) * 100));
-                }
-                resolve(img);
-              }
-            };
-            img.onerror = () => {
-              const fallback = new Image();
-              resolve(fallback);
-            };
-            img.src = url;
-          });
+        // Load critical initial frames (1..30) with progress tracking
+        const loadedImages = await heroFrameCache.loadInitialBatch((percent) => {
+          if (isMounted) {
+            setProgress(percent);
+          }
         });
 
-        const loadedImages = await Promise.all(promises);
-
         if (!isMounted) return;
+        setProgress(100);
         triggerExitTransition(loadedImages);
       } catch (err) {
         console.error(err);

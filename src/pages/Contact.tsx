@@ -448,10 +448,10 @@ export default function Contact() {
                 <div className="abstract-map-container glass-panel" data-reveal="card" style={{ overflow: 'hidden' }}>
                   <iframe
                     title="Websight Works Studio Location"
-                    src="https://maps.google.com/maps?q=Websight%20Works,%20Rajarampuri,%20Kolhapur&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                    src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1sWebsight+Works,+Rajarampuri,+Kolhapur!6i17"
                     width="100%"
                     height="100%"
-                    style={{ border: 0 }}
+                    style={{ border: 0, width: '100%', height: '100%', display: 'block' }}
                     allowFullScreen={false}
                     loading="eager"
                     referrerPolicy="no-referrer-when-downgrade"
@@ -908,10 +908,17 @@ export default function Contact() {
         }
 
         .google-map-iframe {
+          width: 100%;
+          height: 100%;
+          display: block;
+          border: 0;
+          -webkit-filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);
           filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);
           border-radius: 12px;
           opacity: 0.85;
           transition: opacity var(--transition-smooth);
+          will-change: transform;
+          transform: translateZ(0);
         }
 
         .google-map-iframe:hover {
