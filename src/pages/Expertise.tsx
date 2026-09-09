@@ -61,33 +61,33 @@ export default function Expertise() {
 
   // Service-first production SEO metadata lookup
   const serviceSEO = {
+    'custom-apps': {
+      title: 'Custom Software & Web Application Development | Websight Works',
+      description: 'Custom software development, business web applications, client portals, and SaaS platforms engineered by Websight Works in Kolhapur, Maharashtra. Serving India and global clients.',
+    },
     'website-development': {
-      title: 'Custom Website Development Services | Websight Works',
-      description: 'High-performance custom website development engineered for speed, scalability, and conversions. Tailored digital experiences for businesses in India and worldwide.',
+      title: 'Website Development Company & Custom Web Solutions | Websight Works',
+      description: 'Custom website development company based in Kolhapur, Maharashtra. We engineer fast, responsive, and conversion-focused websites for businesses across India and internationally.',
     },
     'e-commerce': {
-      title: 'Custom E-Commerce Website Development | Websight Works',
-      description: 'Build high-converting, scalable e-commerce stores with seamless shopping experiences, secure payments, and modern architecture.',
-    },
-    'custom-apps': {
-      title: 'Custom Web Application & Software Development | Websight Works',
-      description: 'Scalable custom web applications and software solutions tailored to your business workflow, operations, and growth.',
+      title: 'E-Commerce Development Company & Custom Online Stores | Websight Works',
+      description: 'Custom e-commerce development company building scalable online stores, seamless checkout experiences, and secure payment integrations for growing brands.',
     },
     'ai-solutions': {
-      title: 'AI-Powered Solutions & Intelligent Automation | Websight Works',
-      description: 'Custom AI solutions and intelligent integrations designed to automate operations, enhance decision-making, and modernize business workflows.',
+      title: 'AI Solutions Company & Intelligent Business Automation | Websight Works',
+      description: 'Custom AI solutions company delivering intelligent automation, workflow integrations, and smart enterprise tools developed by Websight Works.',
     },
     'data-analytics': {
-      title: 'Data Analytics & Business Intelligence Dashboards | Websight Works',
-      description: 'Transform raw business data into actionable real-time insights with custom analytics pipelines and interactive visualization dashboards.',
+      title: 'Data Analytics & Business Intelligence Solutions | Websight Works',
+      description: 'Data analytics and business intelligence company providing real-time data pipelines, KPI dashboards, and actionable reporting systems for modern enterprises.',
     },
     'ui-ux-design': {
-      title: 'UI/UX Design & Digital Product Design | Websight Works',
-      description: 'User-centric UI/UX design, wireframing, and interactive design systems that transform complex workflows into intuitive digital products.',
+      title: 'UI/UX Design Company & Digital Product Design | Websight Works',
+      description: 'User-centric UI/UX design company creating intuitive digital product interfaces, responsive wireframes, and scalable design systems.',
     },
     'digital-marketing': {
-      title: 'Social Media Marketing & Brand Growth | Websight Works',
-      description: 'Data-driven social media marketing and brand campaigns designed to expand digital reach, drive qualified engagement, and accelerate growth.',
+      title: 'Social Media Marketing & Strategic Digital Growth | Websight Works',
+      description: 'Strategic digital marketing and social media management designed to expand digital presence, engage qualified audiences, and drive measurable business growth.',
     },
   }[service.id] || {
     title: `${service.title} | Websight Works`,

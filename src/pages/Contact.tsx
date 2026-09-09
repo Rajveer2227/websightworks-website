@@ -193,15 +193,15 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Contact Us | Websight Works - Digital Technology Studio" 
-        description="Connect with Websight Works in Kolhapur, Maharashtra. Discuss custom website development, web applications, and AI-powered solutions with our team."
+        title="Contact Us | Websight Works - Software & Web Development Company" 
+        description="Contact Websight Works, a software and web development company in Kolhapur, Maharashtra. Consult our team for custom software, web apps, websites, and AI solutions."
         schemas={[
           {
             '@context': 'https://schema.org',
             '@type': 'ContactPage',
             'name': 'Contact Websight Works',
             'url': `${SITE_CONFIG.siteUrl}/contact`,
-            'description': 'Contact the Websight Works team in Kolhapur, Maharashtra for website development and digital solutions.',
+            'description': 'Contact the Websight Works team in Kolhapur, Maharashtra for custom software development, web applications, and website solutions.',
             'mainEntity': {
               '@id': `${SITE_CONFIG.siteUrl}/#localbusiness`,
             },

@@ -17,15 +17,15 @@ export default function About() {
   return (
     <>
       <SEO 
-        title="About Us | Websight Works - Digital Technology Company" 
-        description="Learn about Websight Works, a digital solutions company in Kolhapur, Maharashtra. Explore our mission, leadership, and team building modern web applications and websites."
+        title="About Us | Websight Works - Software & Digital Technology Company" 
+        description="Learn about Websight Works, a software development and digital technology company based in Kolhapur, Maharashtra, delivering custom web applications, websites, and AI solutions across India and globally."
         schemas={[
           {
             '@context': 'https://schema.org',
             '@type': 'AboutPage',
             'name': 'About Websight Works',
             'url': `${SITE_CONFIG.siteUrl}/about`,
-            'description': 'Learn about Websight Works, a premier digital agency in Kolhapur, Maharashtra building custom websites, web apps, and AI solutions.',
+            'description': 'Learn about Websight Works, a software development and digital technology company based in Kolhapur, Maharashtra, building custom software, web applications, websites, and AI solutions.',
             'mainEntity': {
               '@id': `${SITE_CONFIG.siteUrl}/#organization`,
             },

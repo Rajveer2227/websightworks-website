@@ -18,7 +18,10 @@ export default function SEO({
   schemas = [],
 }: SEOProps) {
   const location = useLocation();
-  const canonicalUrl = `${SITE_CONFIG.siteUrl}${location.pathname === '/' ? '' : location.pathname}`;
+  const canonicalUrl =
+    location.pathname === '/'
+      ? `${SITE_CONFIG.siteUrl}/`
+      : `${SITE_CONFIG.siteUrl}${location.pathname}`;
 
   useEffect(() => {
     // 1. Format Document Title
@@ -106,16 +109,26 @@ export default function SEO({
     const baseSchemas = [
       {
         '@context': 'https://schema.org',
-        '@type': ['Organization', 'SoftwareCompany'],
+        '@type': 'Organization',
         '@id': `${SITE_CONFIG.siteUrl}/#organization`,
         'name': SITE_CONFIG.name,
         'legalName': SITE_CONFIG.legalName,
         'url': SITE_CONFIG.siteUrl,
         'logo': `${SITE_CONFIG.siteUrl}/WW_3.png`,
         'image': ogImage,
+        'description': SITE_CONFIG.positioning,
         'email': SITE_CONFIG.contact.email,
         'telephone': SITE_CONFIG.contact.telephoneLink,
         'sameAs': SITE_CONFIG.socials,
+        'knowsAbout': [
+          'Software Development',
+          'Custom Web Applications',
+          'Website Development',
+          'E-Commerce Development',
+          'Artificial Intelligence Solutions',
+          'Data Analytics',
+          'UI/UX Design',
+        ],
         'address': {
           '@type': 'PostalAddress',
           'streetAddress': SITE_CONFIG.contact.address.streetAddress,
@@ -124,13 +137,20 @@ export default function SEO({
           'postalCode': SITE_CONFIG.contact.address.postalCode,
           'addressCountry': SITE_CONFIG.contact.address.addressCountry,
         },
+        'areaServed': [
+          { '@type': 'City', 'name': 'Kolhapur' },
+          { '@type': 'State', 'name': 'Maharashtra' },
+          { '@type': 'Country', 'name': 'India' },
+          { '@type': 'AdministrativeArea', 'name': 'Worldwide' },
+        ],
       },
       {
         '@context': 'https://schema.org',
-        '@type': ['LocalBusiness', 'ProfessionalService', 'WebDesign'],
+        '@type': ['LocalBusiness', 'ProfessionalService'],
         '@id': `${SITE_CONFIG.siteUrl}/#localbusiness`,
         'name': SITE_CONFIG.name,
         'image': ogImage,
+        'description': SITE_CONFIG.positioning,
         'telephone': SITE_CONFIG.contact.telephoneLink,
         'email': SITE_CONFIG.contact.email,
         'url': SITE_CONFIG.siteUrl,
@@ -166,6 +186,18 @@ export default function SEO({
             'name': 'Worldwide',
           },
         ],
+        'hasOfferCatalog': {
+          '@type': 'OfferCatalog',
+          'name': 'Software & Digital Technology Services',
+          'itemListElement': SITE_CONFIG.services.map((s) => ({
+            '@type': 'Offer',
+            'itemOffered': {
+              '@type': 'Service',
+              'name': s.name,
+              'url': `${SITE_CONFIG.siteUrl}${s.path}`,
+            },
+          })),
+        },
         'openingHoursSpecification': {
           '@type': 'OpeningHoursSpecification',
           'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],

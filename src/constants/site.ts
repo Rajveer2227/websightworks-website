@@ -12,7 +12,7 @@ export const SITE_CONFIG = {
   defaultOgImage: 'https://websightworks.com/WW_3.png',
   
   // Primary Positioning
-  positioning: 'Digital technology company based in Kolhapur, Maharashtra, serving businesses across India and internationally.',
+  positioning: 'Software development and digital technology company based in Kolhapur, Maharashtra, serving businesses across India and internationally.',
   
   // Official Verified Business Information (NAP)
   contact: {

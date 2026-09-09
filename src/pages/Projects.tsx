@@ -47,14 +47,14 @@ export default function Projects() {
     <>
       <SEO 
         title="Featured Projects & Case Studies | Websight Works" 
-        description="Explore custom web applications, e-commerce stores, and corporate websites built by Websight Works. View case studies crafted from strategy to launch."
+        description="Explore custom software applications, e-commerce stores, and corporate websites built by Websight Works in Kolhapur, serving businesses across India and internationally."
         schemas={[
           {
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
             'name': 'Websight Works Portfolio',
             'url': `${SITE_CONFIG.siteUrl}/projects`,
-            'description': 'Explore high-performance websites and web applications developed by Websight Works.',
+            'description': 'Explore high-performance custom software, web applications, and websites developed by Websight Works.',
             'mainEntity': {
               '@type': 'ItemList',
               'itemListElement': projects.map((p, idx) => ({

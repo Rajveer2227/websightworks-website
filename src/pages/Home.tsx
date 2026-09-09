@@ -122,8 +122,8 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="Websight Works | Digital Technology Company & Web Solutions" 
-        description="Websight Works is a digital technology company based in Kolhapur, Maharashtra, delivering custom web development, web applications, e-commerce stores, and AI solutions across India and internationally."
+        title="Websight Works | Software Development & Digital Technology Company" 
+        description="Websight Works is a software development and digital technology company based in Kolhapur, Maharashtra, delivering custom software, web applications, websites, e-commerce stores, and AI solutions across India and internationally."
         schemas={[
           {
             '@context': 'https://schema.org',
